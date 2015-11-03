@@ -32,7 +32,7 @@
             android:layout_width="117dp"
             android:layout_height="wrap_content"
             android:text="회원"
-            android:id="@+id/button"
+            android:id="@+id/memberBtn"
             android:textSize="30dp"
             android:layout_marginRight="10dp" />
 
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="비회원"
-            android:id="@+id/button2"
+            android:id="@+id/nonmemberBtn"
             android:textSize="30dp"
             android:layout_marginLeft="10dp" />
     </LinearLayout>
@@ -48,26 +48,26 @@
     <EditText
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
+        android:id="@+id/startIdText"
         android:layout_gravity="center_horizontal"
-        android:text="아이디"
-        android:textSize="30dp" />
+        android:textSize="30dp"
+        android:hint="아이디" />
 
     <EditText
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/editText2"
+        android:id="@+id/startPassText"
         android:layout_gravity="center_horizontal"
-        android:text="123456"
-        android:textSize="30dp" />
+        android:textSize="30dp"
+        android:hint="비밀번호" />
 
     <Button
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="로그인"
-        android:id="@+id/button3"
+        android:id="@+id/signinBtn"
         android:layout_gravity="center_horizontal"
         android:textSize="30dp" />
 
@@ -75,9 +75,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="회원가입"
-        android:id="@+id/button4"
+        android:id="@+id/startSignupBtn"
         android:layout_gravity="bottom|right"
-        android:layout_marginTop="20dp"
         android:textSize="20dp"
         android:layout_marginRight="10dp" />
 

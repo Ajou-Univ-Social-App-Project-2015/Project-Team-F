@@ -38,6 +38,8 @@ public class StartActivity extends Activity {
                     public void done(ParseUser user, ParseException e) {
                         if (user != null) {
                             Toast.makeText(StartActivity.this, "로그인성공", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(StartActivity.this, MainActivity.class);
+                            startActivity(intent);
                             // Hooray! The user is logged in.
                         } else {
                             Toast.makeText(StartActivity.this, "아이디나 비밀번호가 맞지 않습니다.", Toast.LENGTH_SHORT).show();

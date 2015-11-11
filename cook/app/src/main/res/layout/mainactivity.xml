@@ -1,0 +1,254 @@
+<!-- A DrawerLayout is intended to be used as the top-level content view using match_parent for both width and height to consume the full space available. -->
+
+
+
+
+    <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:id="@+id/drawer_layout"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        tools:context="com.sap.team_f.cook.MainActivity">
+
+        <!-- As the main content view, the view below consumes the entire
+             space available using match_parent in both dimensions. -->
+        <FrameLayout android:id="@+id/container" android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="1">
+
+            <EditText
+            android:id="@+id/search"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+                <requestFocus />
+            </EditText>
+
+            <TabHost
+               android:id="@+id/mainTabhost"
+               android:layout_width="match_parent"
+               android:layout_height="fill_parent">
+                    <TabWidget
+                       android:id="@android:id/tabs"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:tabStripEnabled="true" />
+                    <FrameLayout
+                        android:id="@android:id/tabcontent"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <LinearLayout
+                            android:id="@+id/mainAll"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <RadioGroup
+                                android:layout_width="180dp"
+                                android:layout_height="40dp"
+                                android:layout_marginTop="60dp"
+                                android:layout_marginLeft="210dp"
+                                android:orientation="horizontal">
+                                <RadioButton
+                                    android:id="@+id/mainAllRec"
+                                    android:layout_width="80dp"
+                                    android:layout_height="40dp"
+                                    android:text="추천순"/>
+
+                                <RadioButton
+                                    android:id="@+id/mainAllNew"
+                                    android:layout_width="80dp"
+                                    android:layout_height="40dp"
+                                    android:text="최신순"/>
+                            </RadioGroup>
+
+                            <ListView
+                                android:id="@+id/list_all"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_below="@+id/search"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/mainKor"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <RadioGroup
+                                android:layout_width="180dp"
+                                android:layout_height="40dp"
+                                android:layout_marginTop="60dp"
+                                android:layout_marginLeft="210dp"
+                                android:orientation="horizontal">
+                                <RadioButton
+
+                                    android:id="@+id/mainKorRec"
+                                    android:layout_width="80dp"
+                                    android:layout_height="40dp"
+                                    android:text="추천순"/>
+
+                                <RadioButton
+                                    android:id="@+id/mainKorNew"
+                                    android:layout_width="80dp"
+                                    android:layout_height="40dp"
+                                    android:text="최신순"/>
+                            </RadioGroup>
+
+                            <ListView
+                                android:id="@+id/list_korean"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_below="@+id/search"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/mainJap"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <RadioGroup
+                                android:layout_width="180dp"
+                                android:layout_height="40dp"
+                                android:layout_marginTop="60dp"
+                                android:layout_marginLeft="210dp"
+                                android:orientation="horizontal">
+                                <RadioButton
+                                    android:layout_width="80dp"
+                                    android:layout_height="40dp"
+                                    android:text="추천순"
+                                    android:id="@+id/mainJapRec" />
+
+                                <RadioButton
+                                    android:layout_width="80dp"
+                                    android:layout_height="40dp"
+                                    android:text="최신순"
+                                    android:id="@+id/mainJapNew" />
+                            </RadioGroup>
+
+                            <ListView
+                                android:id="@+id/list_japanese"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_below="@+id/search"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/mainChn"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <RadioGroup
+                                android:layout_width="180dp"
+                                android:layout_height="40dp"
+                                android:layout_marginTop="60dp"
+                                android:layout_marginLeft="210dp"
+                                android:orientation="horizontal">
+                                <RadioButton
+                                    android:layout_width="80dp"
+                                    android:layout_height="40dp"
+                                    android:text="추천순"
+                                    android:id="@+id/mainChnRec" />
+
+                                <RadioButton
+                                    android:layout_width="80dp"
+                                    android:layout_height="40dp"
+                                    android:text="최신순"
+                                    android:id="@+id/mainChnNew" />
+                            </RadioGroup>
+
+                            <ListView
+                                android:id="@+id/list_chinese"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_below="@+id/search"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/mainEng"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <RadioGroup
+                                android:layout_width="180dp"
+                                android:layout_height="40dp"
+                                android:layout_marginTop="60dp"
+                                android:layout_marginLeft="210dp"
+                                android:orientation="horizontal">
+                                <RadioButton
+                                    android:layout_width="80dp"
+                                    android:layout_height="40dp"
+                                    android:text="추천순"
+                                    android:id="@+id/mainEngRec" />
+
+                                <RadioButton
+                                    android:layout_width="80dp"
+                                    android:layout_height="40dp"
+                                    android:text="최신순"
+                                    android:id="@+id/mainEngNew" />
+                            </RadioGroup>
+
+                            <ListView
+                                android:id="@+id/list_american"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_below="@+id/search"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/mainEtc"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <RadioGroup
+                                android:layout_width="180dp"
+                                android:layout_height="40dp"
+                                android:layout_marginTop="60dp"
+                                android:layout_marginLeft="210dp"
+                                android:orientation="horizontal">
+                                <RadioButton
+                                    android:layout_width="80dp"
+                                    android:layout_height="40dp"
+                                    android:text="추천순"
+                                    android:id="@+id/mainEtcRec" />
+
+                                <RadioButton
+                                    android:layout_width="80dp"
+                                    android:layout_height="40dp"
+                                    android:text="최신순"
+                                    android:id="@+id/mainEtcNew" />
+                            </RadioGroup>
+
+                            <ListView
+                                android:id="@+id/list_etc"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_below="@+id/search"/>
+
+                        </LinearLayout>
+                    </FrameLayout>
+
+                </TabHost>
+           </LinearLayout>
+        </FrameLayout>
+        <!-- android:layout_gravity="start" tells DrawerLayout to treat
+             this as a sliding drawer on the left side for left-to-right
+             languages and on the right side for right-to-left languages.
+             If you're not building against API 17 or higher, use
+             android:layout_gravity="left" instead. -->
+        <!-- The drawer is given a fixed width in dp and extends the full height of
+             the container. -->
+        <fragment android:id="@+id/navigation_drawer"
+            android:layout_width="@dimen/navigation_drawer_width" android:layout_height="match_parent"
+            android:layout_gravity="start" android:name="com.sap.team_f.cook.NavigationDrawerFragment"
+            tools:layout="@layout/fragment_navigation_drawer" />
+
+    </android.support.v4.widget.DrawerLayout>
+
+
+

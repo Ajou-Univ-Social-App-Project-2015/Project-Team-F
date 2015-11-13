@@ -26,6 +26,24 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.startactivity);
 
+        Button memBtn = (Button)findViewById(R.id.memberBtn);
+        memBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(StartActivity.this, "로그인 해 주세요.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Button nonmemBtn = (Button)findViewById(R.id.nonmemberBtn);
+        nonmemBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StartActivity.this, MainActivity.class);
+                intent.putExtra("isMember",false);
+                startActivity(intent);
+            }
+        });
+
         Button signinBtn = (Button)findViewById(R.id.signinBtn);
         signinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +57,7 @@ public class StartActivity extends Activity {
                         if (user != null) {
                             Toast.makeText(StartActivity.this, "로그인성공", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(StartActivity.this, MainActivity.class);
+                            intent.putExtra("isMember",true);
                             startActivity(intent);
                             // Hooray! The user is logged in.
                         } else {

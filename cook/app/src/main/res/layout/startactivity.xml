@@ -18,7 +18,7 @@
         android:layout_width="193dp"
         android:layout_height="194dp"
         android:id="@+id/imageView"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/store"
         android:layout_gravity="center_horizontal" />
 
     <LinearLayout

@@ -1,31 +1,40 @@
 package com.sap.team_f.cook;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.io.BufferedInputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -37,12 +46,17 @@ public class MainActivity extends ActionBarActivity{
     private DrawerLayout dlDrawer;
     private ActionBarDrawerToggle dtToggle;
 
-    private CharSequence mTitle;
     private ListView mainNavList;
-    private FrameLayout flContainer;
     private String[] navItems = {"나의 찜","나의 레시피","방명록"};
 
     private boolean isMember;
+
+    private ArrayList<ParseObject> datas = new ArrayList<ParseObject>(); // parse.com에서 읽어온 object들을 저장할 List
+    private ArrayList<ParseObject> kordatas = new ArrayList<ParseObject>();
+    private ArrayList<ParseObject> chndatas = new ArrayList<ParseObject>();
+    private ArrayList<ParseObject> japdatas = new ArrayList<ParseObject>();
+    private ArrayList<ParseObject> engdatas = new ArrayList<ParseObject>();
+    private ArrayList<ParseObject> etcdatas = new ArrayList<ParseObject>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +78,29 @@ public class MainActivity extends ActionBarActivity{
             navItems[0]="회원가입";
         }
 
+        Button searchBtn = (Button)findViewById(R.id.mainSearchBtn);
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText searchText = (EditText) findViewById(R.id.mainSearchText);
+                String search = searchText.getText().toString();
+                if (search == null) {
+                    Toast.makeText(MainActivity.this, "검색 단어를 입력해 주세요", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                    intent.putExtra("Search", search);
+                    intent.putExtra("isMember", isMember);
+                    startActivity(intent);
+                }
+            }
+        });
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle("오늘은 내가 요리사");
 
-        TabHost tabHost = (TabHost) findViewById(R.id.mainTabhost);
+        TabHost tabHost = (TabHost) findViewById(R.id.mainTabhost); // TabHost 설정
         tabHost.setup();
         TabHost.TabSpec tabSpec = tabHost.newTabSpec("tab1");
         tabSpec.setContent(R.id.mainAll);
@@ -101,16 +132,15 @@ public class MainActivity extends ActionBarActivity{
         tabSpec.setIndicator("기타");
         tabHost.addTab(tabSpec);
 
-        tabHost.setCurrentTab(0);
-        mainNavList = (ListView)findViewById(R.id.mainNavList);
-        flContainer = (FrameLayout)findViewById(R.id.mainContainer);
+        tabHost.setCurrentTab(0); // 기본 TabHost 설정
+
+        mainNavList = (ListView)findViewById(R.id.mainNavList); // Navigation Drawer 설정
         mainNavList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, navItems));
         mainNavList.setOnItemClickListener(new DrawerItemClickListener());
        /* mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);*/
-        mTitle = getTitle();
 
-        dlDrawer = (DrawerLayout)findViewById(R.id.main_drawer_layout);
+        dlDrawer = (DrawerLayout)findViewById(R.id.main_drawer_layout); // Drawer 버튼
         dtToggle = new ActionBarDrawerToggle(this, dlDrawer, R.string.open_drawer, R.string.close_drawer){
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -124,10 +154,114 @@ public class MainActivity extends ActionBarActivity{
         dlDrawer.setDrawerListener(dtToggle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Set up the drawer.
-        /*mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));*/
+        load(); // parse데이터 로드
+        onSortLike(datas); // 좋아요 순으로 정렬
+        onSortLike(kordatas);
+        onSortLike(chndatas);
+        onSortLike(japdatas);
+        onSortLike(engdatas);
+        onSortLike(etcdatas);
+
+        ListView list; // TabHost에 List마다 추천수 높은 3개 넣어줌
+        list = (ListView)findViewById(R.id.list_all);
+        setList(list, datas);
+        list = (ListView)findViewById(R.id.list_korean);
+        setList(list,kordatas);
+        list = (ListView)findViewById(R.id.list_chinese);
+        setList(list,chndatas);
+        list = (ListView)findViewById(R.id.list_japanese);
+        setList(list,japdatas);
+        list = (ListView)findViewById(R.id.list_american);
+        setList(list,engdatas);
+        list = (ListView)findViewById(R.id.list_etc);
+        setList(list,etcdatas);
+    }
+
+    private void setList(ListView list, ArrayList<ParseObject> data) // 추천순으로 3개 넣어주는 method
+    {
+        ArrayList<Item> arItem = new ArrayList<Item>();
+        Item myitem;
+        for(int i=0;i<3;++i)
+        {
+            myitem = new Item(data.get(i).getParseFile("Image"),data.get(i).getString("Name"),data.get(i).getInt("Like"));
+            arItem.add(myitem);
+        }
+        itemAdapter adapter = new itemAdapter(this,R.layout.item,arItem);
+        list.setAdapter(adapter);
+    }
+    private void load(){
+        try {
+
+            ParseQuery<ParseObject> query;
+
+            query = ParseQuery.getQuery("Korean"); // 서버에 mydatas class 데이터 요청
+            datas.addAll(query.find()); // 읽어온 데이터를 List에 저장
+            kordatas.addAll(query.find());
+
+            query = ParseQuery.getQuery("China"); // 서버에 mydatas class 데이터 요청
+            datas.addAll(query.find()); // 읽어온 데이터를 List에 저장
+            chndatas.addAll(query.find());
+
+            query = ParseQuery.getQuery("Japan"); // 서버에 mydatas class 데이터 요청
+            datas.addAll(query.find()); // 읽어온 데이터를 List에 저장
+            japdatas.addAll(query.find());
+
+            query = ParseQuery.getQuery("English"); // 서버에 mydatas class 데이터 요청
+            datas.addAll(query.find()); // 읽어온 데이터를 List에 저장
+            engdatas.addAll(query.find());
+
+            query = ParseQuery.getQuery("Etc"); // 서버에 mydatas class 데이터 요청
+            datas.addAll(query.find()); // 읽어온 데이터를 List에 저장
+            etcdatas.addAll(query.find());
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void onSortLike(ArrayList<ParseObject> data) // 좋아요 순으로 정렬
+    {
+        for(int i = 0; i<data.size()-1;++i)
+        {
+            int sw =0;
+            for(int j=i+1;j<data.size();++j)
+            {
+                if (data.get(i).getInt("Like") < data.get(j).getInt("Like"))
+                {
+                    ParseObject temp = data.get(i);
+                    data.set(i, data.get(j));
+                    data.set(j, temp);
+                    sw = 1;
+                }
+            }
+            if(sw==0)
+            {
+                break;
+            }
+        }
+    }
+
+    public void onSortDay(ArrayList<ParseObject> data)
+    {
+        for(int i = 0; i<data.size()-1;++i)
+        {
+            int sw =0;
+            for(int j=i+1;j<data.size();++j)
+            {
+                if (data.get(i).getDate("createdAt").before(data.get(j).getDate("createdAt")))
+                {
+                    ParseObject temp = data.get(i);
+                    data.set(i, data.get(j));
+                    data.set(j, temp);
+                    sw = 1;
+                }
+            }
+            if(sw==0)
+            {
+                break;
+            }
+        }
     }
 
     protected void onPostCreate(Bundle savedInstanceState){
@@ -157,13 +291,10 @@ public class MainActivity extends ActionBarActivity{
                         startActivity(intent);
                         finish();
                     }
-                    mTitle = getString(R.string.title_section1);
                     break;
                 case 1:
-                    mTitle = getString(R.string.title_section2);
                     break;
                 case 2:
-                    mTitle = getString(R.string.title_section3);
                     break;
             }
             dlDrawer.closeDrawer(mainNavList);

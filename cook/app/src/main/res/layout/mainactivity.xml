@@ -18,15 +18,28 @@
                 android:layout_height="match_parent"
                 android:weightSum="1">
 
-            <EditText
-            android:id="@+id/search"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
 
-                <requestFocus />
-            </EditText>
+                    <EditText
+                android:id="@+id/mainSearchText"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content">
 
-            <TabHost
+                    <requestFocus />
+                </EditText>
+
+                    <Button
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:text="검색"
+                        android:id="@+id/mainSearchBtn" />
+                </LinearLayout>
+
+                <TabHost
                android:id="@+id/mainTabhost"
                android:layout_width="match_parent"
                android:layout_height="fill_parent">
@@ -43,19 +56,22 @@
                         <LinearLayout
                             android:id="@+id/mainAll"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
 
                             <RadioGroup
                                 android:layout_width="180dp"
                                 android:layout_height="40dp"
                                 android:layout_marginTop="60dp"
                                 android:layout_marginLeft="210dp"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:focusable="false">
                                 <RadioButton
                                     android:id="@+id/mainAllRec"
                                     android:layout_width="80dp"
                                     android:layout_height="40dp"
-                                    android:text="추천순"/>
+                                    android:text="추천순"
+                                    android:checked="true" />
 
                                 <RadioButton
                                     android:id="@+id/mainAllNew"
@@ -69,12 +85,14 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
                                 android:layout_below="@+id/search"/>
+
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/mainKor"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
 
                             <RadioGroup
                                 android:layout_width="180dp"
@@ -87,7 +105,8 @@
                                     android:id="@+id/mainKorRec"
                                     android:layout_width="80dp"
                                     android:layout_height="40dp"
-                                    android:text="추천순"/>
+                                    android:text="추천순"
+                                    android:checked="true" />
 
                                 <RadioButton
                                     android:id="@+id/mainKorNew"
@@ -107,7 +126,8 @@
                         <LinearLayout
                             android:id="@+id/mainJap"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
 
                             <RadioGroup
                                 android:layout_width="180dp"
@@ -119,7 +139,8 @@
                                     android:layout_width="80dp"
                                     android:layout_height="40dp"
                                     android:text="추천순"
-                                    android:id="@+id/mainJapRec" />
+                                    android:id="@+id/mainJapRec"
+                                    android:checked="true" />
 
                                 <RadioButton
                                     android:layout_width="80dp"
@@ -139,7 +160,8 @@
                         <LinearLayout
                             android:id="@+id/mainChn"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
 
                             <RadioGroup
                                 android:layout_width="180dp"
@@ -151,7 +173,8 @@
                                     android:layout_width="80dp"
                                     android:layout_height="40dp"
                                     android:text="추천순"
-                                    android:id="@+id/mainChnRec" />
+                                    android:id="@+id/mainChnRec"
+                                    android:checked="true" />
 
                                 <RadioButton
                                     android:layout_width="80dp"
@@ -171,7 +194,8 @@
                         <LinearLayout
                             android:id="@+id/mainEng"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
 
                             <RadioGroup
                                 android:layout_width="180dp"
@@ -183,7 +207,8 @@
                                     android:layout_width="80dp"
                                     android:layout_height="40dp"
                                     android:text="추천순"
-                                    android:id="@+id/mainEngRec" />
+                                    android:id="@+id/mainEngRec"
+                                    android:checked="true" />
 
                                 <RadioButton
                                     android:layout_width="80dp"
@@ -203,7 +228,8 @@
                         <LinearLayout
                             android:id="@+id/mainEtc"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
 
                             <RadioGroup
                                 android:layout_width="180dp"
@@ -215,7 +241,8 @@
                                     android:layout_width="80dp"
                                     android:layout_height="40dp"
                                     android:text="추천순"
-                                    android:id="@+id/mainEtcRec" />
+                                    android:id="@+id/mainEtcRec"
+                                    android:checked="true" />
 
                                 <RadioButton
                                     android:layout_width="80dp"
@@ -234,7 +261,8 @@
                     </FrameLayout>
 
                 </TabHost>
-           </LinearLayout>
+
+            </LinearLayout>
         </FrameLayout>
         <!-- android:layout_gravity="start" tells DrawerLayout to treat
              this as a sliding drawer on the left side for left-to-right

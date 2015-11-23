@@ -24,12 +24,9 @@
                     android:layout_height="wrap_content">
 
                     <EditText
-                android:id="@+id/mainSearchText"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content">
-
-                    <requestFocus />
-                </EditText>
+                    android:id="@+id/mainSearchText"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"/>
 
                     <Button
                         style="?android:attr/buttonStyleSmall"
@@ -65,7 +62,8 @@
                                 android:layout_marginTop="60dp"
                                 android:layout_marginLeft="210dp"
                                 android:orientation="horizontal"
-                                android:focusable="false">
+                                android:focusable="false"
+                                android:id="@+id/mainAllRadio">
                                 <RadioButton
                                     android:id="@+id/mainAllRec"
                                     android:layout_width="80dp"
@@ -99,7 +97,8 @@
                                 android:layout_height="40dp"
                                 android:layout_marginTop="60dp"
                                 android:layout_marginLeft="210dp"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:id="@+id/mainKorRadio">
                                 <RadioButton
 
                                     android:id="@+id/mainKorRec"
@@ -134,7 +133,8 @@
                                 android:layout_height="40dp"
                                 android:layout_marginTop="60dp"
                                 android:layout_marginLeft="210dp"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:id="@+id/mainJapRadio">
                                 <RadioButton
                                     android:layout_width="80dp"
                                     android:layout_height="40dp"
@@ -168,7 +168,8 @@
                                 android:layout_height="40dp"
                                 android:layout_marginTop="60dp"
                                 android:layout_marginLeft="210dp"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:id="@+id/mainChnRadio">
                                 <RadioButton
                                     android:layout_width="80dp"
                                     android:layout_height="40dp"
@@ -202,7 +203,8 @@
                                 android:layout_height="40dp"
                                 android:layout_marginTop="60dp"
                                 android:layout_marginLeft="210dp"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:id="@+id/mainEngRadio">
                                 <RadioButton
                                     android:layout_width="80dp"
                                     android:layout_height="40dp"
@@ -236,7 +238,8 @@
                                 android:layout_height="40dp"
                                 android:layout_marginTop="60dp"
                                 android:layout_marginLeft="210dp"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:id="@+id/mainEtcRadio">
                                 <RadioButton
                                     android:layout_width="80dp"
                                     android:layout_height="40dp"

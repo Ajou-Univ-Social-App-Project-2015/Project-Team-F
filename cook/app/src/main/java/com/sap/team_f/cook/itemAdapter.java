@@ -17,7 +17,6 @@ import java.util.ArrayList;
 public class itemAdapter extends BaseAdapter {
     Context con;
     LayoutInflater inflacter;
-    ImageLoader imageLoader;
     private ArrayList<Item> arI = null;
     int layout;
 
@@ -26,7 +25,6 @@ public class itemAdapter extends BaseAdapter {
         inflacter = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         arI=aarI;
         layout=alayout;
-        imageLoader = new ImageLoader(context);
     }
 
     public class ViewHolder{
@@ -65,8 +63,9 @@ public class itemAdapter extends BaseAdapter {
         {
             holder = (ViewHolder)convertView.getTag();
         }
-        Log.v("URL",arI.get(position).getImage()); // URL 로그 찍어보기
-        imageLoader.DisplayImage(arI.get(position).getImage(), holder.img); // url을 이미지로더에 전달 url은 제대로 가는데 이미지는 엑박이온다.
+        Log.v("URL", arI.get(position).getImage()); // URL 로그 찍어보기
+        ImageLoaderTask imageLoaderTask = new ImageLoaderTask(holder.img,arI.get(position).getImage());
+        imageLoaderTask.execute();
 
         holder.title.setText(arI.get(position).getName());
 

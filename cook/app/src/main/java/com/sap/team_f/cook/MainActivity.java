@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +39,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity{
+public class MainActivity extends ActionBarActivity implements RadioGroup.OnCheckedChangeListener{
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -48,7 +49,7 @@ public class MainActivity extends ActionBarActivity{
 
     private ListView mainNavList;
     private String[] navItems = {"나의 찜","나의 레시피","방명록"};
-
+    private RadioGroup[] radio = new RadioGroup[6];
     private boolean isMember;
 
     private ArrayList<ParseObject> datas = new ArrayList<ParseObject>(); // parse.com에서 읽어온 object들을 저장할 List
@@ -90,6 +91,7 @@ public class MainActivity extends ActionBarActivity{
                     Intent intent = new Intent(MainActivity.this, SearchActivity.class);
                     intent.putExtra("Search", search);
                     intent.putExtra("isMember", isMember);
+                   // intent.putExtra("Data",datas);
                     startActivity(intent);
                 }
             }
@@ -154,6 +156,18 @@ public class MainActivity extends ActionBarActivity{
         dlDrawer.setDrawerListener(dtToggle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        radio[0]=(RadioGroup)findViewById(R.id.mainAllRadio);
+        radio[1]=(RadioGroup)findViewById(R.id.mainKorRadio);
+        radio[2]=(RadioGroup)findViewById(R.id.mainJapRadio);
+        radio[3]=(RadioGroup)findViewById(R.id.mainChnRadio);
+        radio[4]=(RadioGroup)findViewById(R.id.mainEngRadio);
+        radio[5]=(RadioGroup)findViewById(R.id.mainEtcRadio);
+
+        for(int i=0;i<6;++i)
+        {
+            radio[i].setOnCheckedChangeListener(this);
+        }
+
         load(); // parse데이터 로드
         onSortLike(datas); // 좋아요 순으로 정렬
         onSortLike(kordatas);
@@ -197,7 +211,6 @@ public class MainActivity extends ActionBarActivity{
             query = ParseQuery.getQuery("Korean"); // 서버에 mydatas class 데이터 요청
             datas.addAll(query.find()); // 읽어온 데이터를 List에 저장
             kordatas.addAll(query.find());
-
             query = ParseQuery.getQuery("China"); // 서버에 mydatas class 데이터 요청
             datas.addAll(query.find()); // 읽어온 데이터를 List에 저장
             chndatas.addAll(query.find());
@@ -249,7 +262,7 @@ public class MainActivity extends ActionBarActivity{
             int sw =0;
             for(int j=i+1;j<data.size();++j)
             {
-                if (data.get(i).getDate("createdAt").before(data.get(j).getDate("createdAt")))
+                if (data.get(i).getCreatedAt().before(data.get(j).getCreatedAt()))
                 {
                     ParseObject temp = data.get(i);
                     data.set(i, data.get(j));
@@ -278,6 +291,102 @@ public class MainActivity extends ActionBarActivity{
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        ListView list;
+        if(group==radio[0])
+        {
+            if(checkedId==R.id.mainAllRec)
+            {
+                onSortLike(datas); // 좋아요 순으로 정렬
+            }
+            else if(checkedId==R.id.mainAllNew)
+            {
+                onSortDay(datas);
+            }
+            list = (ListView)findViewById(R.id.list_all);
+            setList(list, datas);
+        }
+        else if(group==radio[1])
+        {
+            if(checkedId==R.id.mainKorRec)
+            {
+                onSortLike(kordatas); // 좋아요 순으로 정렬
+            }
+            else if(checkedId==R.id.mainKorNew)
+            {
+                onSortDay(kordatas);
+            }
+            list = (ListView)findViewById(R.id.list_korean);
+            setList(list, kordatas);
+        }
+        else if(group==radio[2])
+        {
+            if(checkedId==R.id.mainJapRec)
+            {
+                onSortLike(japdatas); // 좋아요 순으로 정렬
+            }
+            else if(checkedId==R.id.mainJapNew)
+            {
+                onSortDay(japdatas);
+            }
+            list = (ListView)findViewById(R.id.list_japanese);
+            setList(list, japdatas);
+        }
+        else if(group==radio[2])
+        {
+            if(checkedId==R.id.mainJapRec)
+            {
+                onSortLike(japdatas); // 좋아요 순으로 정렬
+            }
+            else if(checkedId==R.id.mainJapNew)
+            {
+                onSortDay(japdatas);
+            }
+            list = (ListView)findViewById(R.id.list_japanese);
+            setList(list, japdatas);
+        }
+        else if(group==radio[3])
+        {
+            if(checkedId==R.id.mainChnRec)
+            {
+                onSortLike(chndatas); // 좋아요 순으로 정렬
+            }
+            else if(checkedId==R.id.mainChnNew)
+            {
+                onSortDay(chndatas);
+            }
+            list = (ListView)findViewById(R.id.list_chinese);
+            setList(list, chndatas);
+        }
+        else if(group==radio[4])
+        {
+            if(checkedId==R.id.mainEngRec)
+            {
+                onSortLike(engdatas); // 좋아요 순으로 정렬
+            }
+            else if(checkedId==R.id.mainEngNew)
+            {
+                onSortDay(engdatas);
+            }
+            list = (ListView)findViewById(R.id.list_american);
+            setList(list, engdatas);
+        }
+        else if(group==radio[5])
+        {
+            if(checkedId==R.id.mainEtcRec)
+            {
+                onSortLike(etcdatas); // 좋아요 순으로 정렬
+            }
+            else if(checkedId==R.id.mainEtcNew)
+            {
+                onSortDay(etcdatas);
+            }
+            list = (ListView)findViewById(R.id.list_etc);
+            setList(list, etcdatas);
+        }
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {

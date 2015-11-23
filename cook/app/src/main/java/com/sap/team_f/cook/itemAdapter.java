@@ -63,7 +63,6 @@ public class itemAdapter extends BaseAdapter {
         {
             holder = (ViewHolder)convertView.getTag();
         }
-        Log.v("URL", arI.get(position).getImage()); // URL 로그 찍어보기
         ImageLoaderTask imageLoaderTask = new ImageLoaderTask(holder.img,arI.get(position).getImage());
         imageLoaderTask.execute();
 

@@ -45,7 +45,8 @@
                 android:layout_marginTop="0dp"
                 android:layout_marginLeft="210dp"
                 android:orientation="horizontal"
-                android:focusable="false">
+                android:focusable="false"
+                android:id="@+id/searchRadioGroup">
                 <RadioButton
                     android:id="@+id/searchAllRec"
                     android:layout_width="80dp"
@@ -61,7 +62,7 @@
             </RadioGroup>
 
             <ListView
-                android:id="@+id/list_all"
+                android:id="@+id/searchList"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_below="@+id/search"/>

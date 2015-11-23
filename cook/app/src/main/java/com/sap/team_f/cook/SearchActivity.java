@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.v4.widget.DrawerLayout;
@@ -13,13 +14,21 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ListView;
-import android.widget.TabHost;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
-public class SearchActivity extends ActionBarActivity{
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+
+
+public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCheckedChangeListener{
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -29,6 +38,8 @@ public class SearchActivity extends ActionBarActivity{
 
     private ListView SearchNavList;
     private String[] navItems = {"나의 찜","나의 레시피","방명록"};
+    private ArrayList<Item> datas = new ArrayList<Item>(); // parse.com에서 읽어온 object들을 저장할 List
+    private RadioGroup radio;
 
     private boolean isMember;
 
@@ -39,6 +50,7 @@ public class SearchActivity extends ActionBarActivity{
 
         isMember = getIntent().getBooleanExtra("isMember",true);
         String search = getIntent().getStringExtra("Search");
+        String[] word = search.split(" ");
         EditText searchText = (EditText)findViewById(R.id.searchSearchText);
         searchText.setText(search);
         if(isMember)
@@ -103,7 +115,139 @@ public class SearchActivity extends ActionBarActivity{
         /*mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));*/
+        load();
+        for(int i=0;i<word.length;++i) {
+            for (int j = datas.size() - 1; j >= 0; --j) {
+                Log.v("Name",datas.get(j).getName());
+                if (Search(word[i], datas.get(j)) == false) {
+                    datas.remove(j);
+                }
+            }
+        }
+        onSortLike(datas);
+        ListView list = (ListView)findViewById(R.id.searchList);
+        itemAdapter adapter = new itemAdapter(this,R.layout.item,datas);
+        list.setAdapter(adapter);
+
+        radio=(RadioGroup)findViewById(R.id.searchRadioGroup);
+        radio.setOnCheckedChangeListener(this);
     }
+
+    void load()
+    {
+        try {
+            ParseQuery<ParseObject> query;
+            query = ParseQuery.getQuery("Korean"); // 서버에 mydatas class 데이터 요청
+            for(ParseObject object : query.find())
+            {
+                datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
+            }
+            query = ParseQuery.getQuery("China"); // 서버에 mydatas class 데이터 요청
+            for(ParseObject object : query.find())
+            {
+                datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
+            }
+            query = ParseQuery.getQuery("Japan"); // 서버에 mydatas class 데이터 요청
+            for(ParseObject object : query.find())
+            {
+                datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
+            }
+            query = ParseQuery.getQuery("English"); // 서버에 mydatas class 데이터 요청
+            for(ParseObject object : query.find())
+            {
+                datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
+            }
+            query = ParseQuery.getQuery("Etc"); // 서버에 mydatas class 데이터 요청
+            for(ParseObject object : query.find())
+            {
+                datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onSortLike(ArrayList<Item> data) // 좋아요 순으로 정렬
+    {
+        for(int i = 0; i<data.size()-1;++i)
+        {
+            for(int j=i+1;j<data.size();++j)
+            {
+                if (data.get(i).getLike() < data.get(j).getLike())
+                {
+                    Item temp = data.get(i);
+                    data.set(i, data.get(j));
+                    data.set(j, temp);
+                }
+            }
+        }
+    }
+
+    public void onSortDay(ArrayList<Item> data) // 최순 순으로 정렬
+    {
+        for(int i = 0; i<data.size()-1;++i)
+        {
+            for(int j=i+1;j<data.size();++j)
+            {
+                if (data.get(i).getCreatedAt().before(data.get(j).getCreatedAt()))
+                {
+                    Item temp = data.get(i);
+                    data.set(i, data.get(j));
+                    data.set(j, temp);
+                }
+            }
+        }
+    }
+
+    boolean Search(String str, Item item)
+    {
+        JSONArray arr;
+        arr = item.getMaterial();
+        Log.v("Search",str);
+        Log.v("Material",arr.toString());
+        for(int i=0;i<arr.length();++i)
+        {
+            try {
+                Log.v("Material",arr.getJSONArray(i).get(0).toString());
+                if(arr.getJSONArray(i).get(0).toString().equals(str))
+                {
+                    Log.v("vvv","true");
+                    return true;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        arr = item.getSubMaterial();
+        for(int i=0;i<arr.length();++i)
+        {
+            try {
+                Log.v("subMaterial",arr.getJSONArray(i).get(0).toString());
+                if(arr.getJSONArray(i).get(0).toString().equals(str))
+                {
+                    Log.v("vvv","true");
+                    return true;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        if(checkedId==R.id.searchAllRec)
+        {
+            onSortLike(datas); // 좋아요 순으로 정렬
+        }
+        else if(checkedId==R.id.searchAllNew)
+        {
+            onSortDay(datas);
+        }
+        ListView list = (ListView)findViewById(R.id.searchList);
+        itemAdapter adapter = new itemAdapter(this,R.layout.item,datas);
+        list.setAdapter(adapter);
+    } // 라디오버튼 바뀔때
 
     protected void onPostCreate(Bundle savedInstanceState){
         super.onPostCreate(savedInstanceState);

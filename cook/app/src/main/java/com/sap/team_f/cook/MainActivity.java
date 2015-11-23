@@ -1,41 +1,27 @@
 package com.sap.team_f.cook;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.v4.widget.DrawerLayout;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-import java.io.BufferedInputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -52,12 +38,12 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
     private RadioGroup[] radio = new RadioGroup[6];
     private boolean isMember;
 
-    private ArrayList<ParseObject> datas = new ArrayList<ParseObject>(); // parse.com에서 읽어온 object들을 저장할 List
-    private ArrayList<ParseObject> kordatas = new ArrayList<ParseObject>();
-    private ArrayList<ParseObject> chndatas = new ArrayList<ParseObject>();
-    private ArrayList<ParseObject> japdatas = new ArrayList<ParseObject>();
-    private ArrayList<ParseObject> engdatas = new ArrayList<ParseObject>();
-    private ArrayList<ParseObject> etcdatas = new ArrayList<ParseObject>();
+    public static ArrayList<Item> datas = new ArrayList<Item>(); // parse.com에서 읽어온 object들을 저장할 List
+    private ArrayList<Item> kordatas = new ArrayList<Item>();
+    private ArrayList<Item> chndatas = new ArrayList<Item>();
+    private ArrayList<Item> japdatas = new ArrayList<Item>();
+    private ArrayList<Item> engdatas = new ArrayList<Item>();
+    private ArrayList<Item> etcdatas = new ArrayList<Item>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +77,6 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
                     Intent intent = new Intent(MainActivity.this, SearchActivity.class);
                     intent.putExtra("Search", search);
                     intent.putExtra("isMember", isMember);
-                   // intent.putExtra("Data",datas);
                     startActivity(intent);
                 }
             }
@@ -176,6 +161,7 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
         onSortLike(engdatas);
         onSortLike(etcdatas);
 
+        //Log.v("vvv", datas.get(0).get("Material").toString());
         ListView list; // TabHost에 List마다 추천수 높은 3개 넣어줌
         list = (ListView)findViewById(R.id.list_all);
         setList(list, datas);
@@ -191,88 +177,95 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
         setList(list,etcdatas);
     }
 
-    private void setList(ListView list, ArrayList<ParseObject> data) // 추천순으로 3개 넣어주는 method
+    /*@Override
+    protected void onResume() {
+        super.onResume();
+        load();
+    }*/
+
+    private void setList(ListView list, ArrayList<Item> data) // 추천순으로 3개 넣어주는 method
     {
         ArrayList<Item> arItem = new ArrayList<Item>();
-        Item myitem;
         for(int i=0;i<3;++i)
-        {
-            myitem = new Item(data.get(i).getParseFile("Image"),data.get(i).getString("Name"),data.get(i).getInt("Like"));
-            arItem.add(myitem);
-        }
+            arItem.add(data.get(i));
         itemAdapter adapter = new itemAdapter(this,R.layout.item,arItem);
         list.setAdapter(adapter);
     }
     private void load(){
+        datas.clear();
+        kordatas.clear();
+        chndatas.clear();
+        japdatas.clear();
+        engdatas.clear();
+        etcdatas.clear();
         try {
 
             ParseQuery<ParseObject> query;
 
             query = ParseQuery.getQuery("Korean"); // 서버에 mydatas class 데이터 요청
-            datas.addAll(query.find()); // 읽어온 데이터를 List에 저장
-            kordatas.addAll(query.find());
+            for(ParseObject object : query.find())
+            {
+                datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
+                kordatas.add(new Item(object));
+            }
             query = ParseQuery.getQuery("China"); // 서버에 mydatas class 데이터 요청
-            datas.addAll(query.find()); // 읽어온 데이터를 List에 저장
-            chndatas.addAll(query.find());
-
+            for(ParseObject object : query.find())
+            {
+                datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
+                chndatas.add(new Item(object));
+            }
             query = ParseQuery.getQuery("Japan"); // 서버에 mydatas class 데이터 요청
-            datas.addAll(query.find()); // 읽어온 데이터를 List에 저장
-            japdatas.addAll(query.find());
-
+            for(ParseObject object : query.find())
+            {
+                datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
+                japdatas.add(new Item(object));
+            }
             query = ParseQuery.getQuery("English"); // 서버에 mydatas class 데이터 요청
-            datas.addAll(query.find()); // 읽어온 데이터를 List에 저장
-            engdatas.addAll(query.find());
-
+            for(ParseObject object : query.find())
+            {
+                datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
+                engdatas.add(new Item(object));
+            }
             query = ParseQuery.getQuery("Etc"); // 서버에 mydatas class 데이터 요청
-            datas.addAll(query.find()); // 읽어온 데이터를 List에 저장
-            etcdatas.addAll(query.find());
-
+            for(ParseObject object : query.find())
+            {
+                datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
+                etcdatas.add(new Item(object));
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
     }
 
-    public void onSortLike(ArrayList<ParseObject> data) // 좋아요 순으로 정렬
+    public void onSortLike(ArrayList<Item> data) // 좋아요 순으로 정렬
     {
         for(int i = 0; i<data.size()-1;++i)
         {
-            int sw =0;
             for(int j=i+1;j<data.size();++j)
             {
-                if (data.get(i).getInt("Like") < data.get(j).getInt("Like"))
+                if (data.get(i).getLike() < data.get(j).getLike())
                 {
-                    ParseObject temp = data.get(i);
+                    Item temp = data.get(i);
                     data.set(i, data.get(j));
                     data.set(j, temp);
-                    sw = 1;
                 }
-            }
-            if(sw==0)
-            {
-                break;
             }
         }
     }
 
-    public void onSortDay(ArrayList<ParseObject> data)
+    public void onSortDay(ArrayList<Item> data) // 최순 순으로 정렬
     {
         for(int i = 0; i<data.size()-1;++i)
         {
-            int sw =0;
             for(int j=i+1;j<data.size();++j)
             {
                 if (data.get(i).getCreatedAt().before(data.get(j).getCreatedAt()))
                 {
-                    ParseObject temp = data.get(i);
+                    Item temp = data.get(i);
                     data.set(i, data.get(j));
                     data.set(j, temp);
-                    sw = 1;
                 }
-            }
-            if(sw==0)
-            {
-                break;
             }
         }
     }
@@ -387,7 +380,7 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
             list = (ListView)findViewById(R.id.list_etc);
             setList(list, etcdatas);
         }
-    }
+    } // 라디오버튼 바뀔때
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
@@ -408,5 +401,5 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
             }
             dlDrawer.closeDrawer(mainNavList);
         }
-    }
+    } // 드로우 리스너 리스트뷰 클릭시
 }

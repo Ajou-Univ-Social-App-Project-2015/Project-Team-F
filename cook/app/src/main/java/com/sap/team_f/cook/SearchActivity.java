@@ -40,7 +40,7 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
     private String[] navItems = {"나의 찜","나의 레시피","방명록"};
     private ArrayList<Item> datas = new ArrayList<Item>(); // parse.com에서 읽어온 object들을 저장할 List
     private RadioGroup radio;
-
+    private String[] word;
     private boolean isMember;
 
     @Override
@@ -50,7 +50,7 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
 
         isMember = getIntent().getBooleanExtra("isMember",true);
         String search = getIntent().getStringExtra("Search");
-        String[] word = search.split(" ");
+        word = search.split(" ");
         EditText searchText = (EditText)findViewById(R.id.searchSearchText);
         searchText.setText(search);
         if(isMember)
@@ -145,11 +145,6 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
         radio.setOnCheckedChangeListener(this);
     }
 
-    private void sortList()
-    {
-
-    }
-
     void load()
     {
         MainActivity.datas.clear();
@@ -191,6 +186,14 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
                 MainActivity.datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
             }
             datas = MainActivity.datas;
+            for(int i=0;i<word.length;++i) {
+                for (int j = datas.size() - 1; j >= 0; --j) {
+                    Log.v("Name",datas.get(j).getName());
+                    if (Search(word[i], datas.get(j)) == false) {
+                        datas.remove(j);
+                    }
+                }
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -302,6 +305,11 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
                     if(!isMember)
                     {
                         Intent intent = new Intent(SearchActivity.this, SignupActivity.class);
+                        startActivity(intent);
+                    }
+                    else
+                    {
+                        Intent intent = new Intent(SearchActivity.this,BookmarkActivity.class);
                         startActivity(intent);
                     }
                     break;

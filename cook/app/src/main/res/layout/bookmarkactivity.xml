@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/bookmark_drawer_layout"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    tools:context="com.sap.team_f.cook.BookmarkActivity">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+             android:id="@+id/bookmarkList"
+             android:layout_width="fill_parent"
+             android:layout_height="370dp"
+             android:layout_marginTop="20dp"
+             android:layout_below="@+id/my_bookmark_list"/>
+
+        <Button
+            android:id="@+id/submit_reply"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:background="#20B2AA"
+            android:layout_marginLeft="300dp"
+            android:text="편집" />
+
+    </LinearLayout>
+
+    <ListView android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:id="@+id/bookmarkNavList"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="#EDEDED"/>
+</android.support.v4.widget.DrawerLayout>

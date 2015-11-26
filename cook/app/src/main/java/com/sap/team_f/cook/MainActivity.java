@@ -455,6 +455,10 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
                     {
                         Intent intent = new Intent(MainActivity.this, SignupActivity.class);
                         startActivity(intent);
+                    } else
+                    {
+                        Intent intent = new Intent(MainActivity.this,BookmarkActivity.class);
+                        startActivity(intent);
                     }
                     break;
                 case 1:

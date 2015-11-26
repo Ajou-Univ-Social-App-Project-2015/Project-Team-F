@@ -70,19 +70,31 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText searchText = (EditText)findViewById(R.id.searchSearchText);
+                EditText searchText = (EditText) findViewById(R.id.searchSearchText);
                 String search = searchText.getText().toString();
-                if(search==null)
-                {
-                    Toast.makeText(SearchActivity.this,"검색 단어를 입력해 주세요",Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
+                if (search == null) {
+                    Toast.makeText(SearchActivity.this, "검색 단어를 입력해 주세요", Toast.LENGTH_SHORT).show();
+                } else {
                     Intent intent = new Intent(SearchActivity.this, SearchActivity.class);
                     intent.putExtra("Search", search);
-                    intent.putExtra("isMember",isMember);
+                    intent.putExtra("isMember", isMember);
                     startActivity(intent);
                 }
+            }
+        });
+
+        Button refreshBtn = (Button)findViewById(R.id.searchRefreshBtn);
+        refreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                load();
+                if(radio.getCheckedRadioButtonId()==R.id.mainAllRec)
+                    onSortLike(datas);
+                else
+                    onSortDay(datas);
+                ListView list = (ListView)findViewById(R.id.searchList);
+                itemAdapter adapter = new itemAdapter(SearchActivity.this,R.layout.item,datas);
+                list.setAdapter(adapter);
             }
         });
 
@@ -115,7 +127,7 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
         /*mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));*/
-        load();
+        datas = MainActivity.datas;
         for(int i=0;i<word.length;++i) {
             for (int j = datas.size() - 1; j >= 0; --j) {
                 Log.v("Name",datas.get(j).getName());
@@ -133,35 +145,52 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
         radio.setOnCheckedChangeListener(this);
     }
 
+    private void sortList()
+    {
+
+    }
+
     void load()
     {
+        MainActivity.datas.clear();
+        MainActivity.kordatas.clear();
+        MainActivity.japdatas.clear();
+        MainActivity.chndatas.clear();
+        MainActivity.engdatas.clear();
+        MainActivity.etcdatas.clear();
         try {
             ParseQuery<ParseObject> query;
             query = ParseQuery.getQuery("Korean"); // 서버에 mydatas class 데이터 요청
             for(ParseObject object : query.find())
             {
-                datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
+                MainActivity.kordatas.add(new Item(object));
+                MainActivity.datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
             }
             query = ParseQuery.getQuery("China"); // 서버에 mydatas class 데이터 요청
             for(ParseObject object : query.find())
             {
-                datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
+                MainActivity.chndatas.add(new Item(object));
+                MainActivity.datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
             }
             query = ParseQuery.getQuery("Japan"); // 서버에 mydatas class 데이터 요청
             for(ParseObject object : query.find())
             {
-                datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
+                MainActivity.japdatas.add(new Item(object));
+                MainActivity.datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
             }
             query = ParseQuery.getQuery("English"); // 서버에 mydatas class 데이터 요청
             for(ParseObject object : query.find())
             {
-                datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
+                MainActivity.engdatas.add(new Item(object));
+                MainActivity.datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
             }
             query = ParseQuery.getQuery("Etc"); // 서버에 mydatas class 데이터 요청
             for(ParseObject object : query.find())
             {
-                datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
+                MainActivity.etcdatas.add(new Item(object));
+                MainActivity.datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
             }
+            datas = MainActivity.datas;
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -274,7 +303,6 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
                     {
                         Intent intent = new Intent(SearchActivity.this, SignupActivity.class);
                         startActivity(intent);
-                        finish();
                     }
                     break;
                 case 1:

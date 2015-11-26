@@ -1,6 +1,8 @@
 package com.sap.team_f.cook;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -65,5 +67,12 @@ public class SignupActivity extends Activity {
                 }
             }
         });
+    }
+
+    public void onBackPressed() {
+        Intent intent = new Intent(SignupActivity.this, StartActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 }

@@ -1,5 +1,7 @@
 package com.sap.team_f.cook;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v7.app.ActionBarActivity;
@@ -14,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.Toast;
@@ -39,18 +42,19 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
     private boolean isMember;
 
     public static ArrayList<Item> datas = new ArrayList<Item>(); // parse.com에서 읽어온 object들을 저장할 List
-    private ArrayList<Item> kordatas = new ArrayList<Item>();
-    private ArrayList<Item> chndatas = new ArrayList<Item>();
-    private ArrayList<Item> japdatas = new ArrayList<Item>();
-    private ArrayList<Item> engdatas = new ArrayList<Item>();
-    private ArrayList<Item> etcdatas = new ArrayList<Item>();
+    public static ArrayList<Item> kordatas = new ArrayList<Item>();
+    public static ArrayList<Item> chndatas = new ArrayList<Item>();
+    public static ArrayList<Item> japdatas = new ArrayList<Item>();
+    public static ArrayList<Item> engdatas = new ArrayList<Item>();
+    public static ArrayList<Item> etcdatas = new ArrayList<Item>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainactivity);
 
-        isMember = getIntent().getBooleanExtra("isMember",true);
+        isMember = getIntent().getBooleanExtra("isMember",false);
 
         if(isMember)
         {
@@ -79,6 +83,28 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
                     intent.putExtra("isMember", isMember);
                     startActivity(intent);
                 }
+            }
+        });
+
+        Button refreshBtn = (Button)findViewById(R.id.mainRefreshBtn);
+        refreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                load();
+                sortList();
+                ListView list; // TabHost에 List마다 추천수 높은 3개 넣어줌
+                list = (ListView)findViewById(R.id.list_all);
+                setList(list, datas);
+                list = (ListView)findViewById(R.id.list_korean);
+                setList(list,kordatas);
+                list = (ListView)findViewById(R.id.list_chinese);
+                setList(list,chndatas);
+                list = (ListView)findViewById(R.id.list_japanese);
+                setList(list,japdatas);
+                list = (ListView)findViewById(R.id.list_american);
+                setList(list,engdatas);
+                list = (ListView)findViewById(R.id.list_etc);
+                setList(list,etcdatas);
             }
         });
 
@@ -154,13 +180,7 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
         }
 
         load(); // parse데이터 로드
-        onSortLike(datas); // 좋아요 순으로 정렬
-        onSortLike(kordatas);
-        onSortLike(chndatas);
-        onSortLike(japdatas);
-        onSortLike(engdatas);
-        onSortLike(etcdatas);
-
+        sortList();
         //Log.v("vvv", datas.get(0).get("Material").toString());
         ListView list; // TabHost에 List마다 추천수 높은 3개 넣어줌
         list = (ListView)findViewById(R.id.list_all);
@@ -177,11 +197,57 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
         setList(list,etcdatas);
     }
 
-    /*@Override
+    @Override
     protected void onResume() {
         super.onResume();
-        load();
-    }*/
+        sortList();
+        ListView list; // TabHost에 List마다 추천수 높은 3개 넣어줌
+        list = (ListView)findViewById(R.id.list_all);
+        setList(list, datas);
+        list = (ListView)findViewById(R.id.list_korean);
+        setList(list,kordatas);
+        list = (ListView)findViewById(R.id.list_chinese);
+        setList(list,chndatas);
+        list = (ListView)findViewById(R.id.list_japanese);
+        setList(list,japdatas);
+        list = (ListView)findViewById(R.id.list_american);
+        setList(list,engdatas);
+        list = (ListView)findViewById(R.id.list_etc);
+        setList(list,etcdatas);
+    }
+
+    /*@Override
+        protected void onResume() {
+            super.onResume();
+            load();
+        }*/
+    private void sortList()
+    {
+        if(radio[0].getCheckedRadioButtonId()==R.id.mainAllRec)
+            onSortLike(datas);
+        else
+            onSortDay(datas);
+        if(radio[1].getCheckedRadioButtonId()==R.id.mainKorRec)
+            onSortLike(kordatas);
+        else
+            onSortDay(kordatas);
+        if(radio[2].getCheckedRadioButtonId()==R.id.mainJapRec)
+            onSortLike(japdatas);
+        else
+            onSortDay(japdatas);
+        if(radio[3].getCheckedRadioButtonId()==R.id.mainChnRec)
+            onSortLike(chndatas);
+        else
+            onSortDay(chndatas);
+        if(radio[4].getCheckedRadioButtonId()==R.id.mainEngRec)
+            onSortLike(engdatas);
+        else
+            onSortDay(engdatas);
+        if(radio[5].getCheckedRadioButtonId()==R.id.mainEtcRec)
+            onSortLike(etcdatas);
+        else
+            onSortDay(etcdatas);
+    }
 
     private void setList(ListView list, ArrayList<Item> data) // 추천순으로 3개 넣어주는 method
     {
@@ -199,7 +265,6 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
         engdatas.clear();
         etcdatas.clear();
         try {
-
             ParseQuery<ParseObject> query;
 
             query = ParseQuery.getQuery("Korean"); // 서버에 mydatas class 데이터 요청
@@ -235,7 +300,6 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
     }
 
     public void onSortLike(ArrayList<Item> data) // 좋아요 순으로 정렬
@@ -391,7 +455,6 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
                     {
                         Intent intent = new Intent(MainActivity.this, SignupActivity.class);
                         startActivity(intent);
-                        finish();
                     }
                     break;
                 case 1:
@@ -402,4 +465,7 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
             dlDrawer.closeDrawer(mainNavList);
         }
     } // 드로우 리스너 리스트뷰 클릭시
+    public void onBackPressed() {
+        finish();
+    }
 }

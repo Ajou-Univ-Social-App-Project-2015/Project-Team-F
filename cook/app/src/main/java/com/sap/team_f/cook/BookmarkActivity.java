@@ -86,6 +86,9 @@ public class BookmarkActivity extends ActionBarActivity {
                     finish();
                     break;
                 case 2:
+                    intent = new Intent(BookmarkActivity.this,MessageActivity.class);
+                    startActivity(intent);
+                    finish();
                     break;
             }
             dlDrawer.closeDrawer(mainNavList);

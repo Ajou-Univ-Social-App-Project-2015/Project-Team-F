@@ -466,6 +466,8 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
                     startActivity(intent);
                     break;
                 case 2:
+                    intent = new Intent(MainActivity.this,MessageActivity.class);
+                    startActivity(intent);
                     break;
             }
             dlDrawer.closeDrawer(mainNavList);

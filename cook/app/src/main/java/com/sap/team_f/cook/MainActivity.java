@@ -462,6 +462,8 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
                     }
                     break;
                 case 1:
+                    Intent intent = new Intent(MainActivity.this,MyRecipeActivity.class);
+                    startActivity(intent);
                     break;
                 case 2:
                     break;

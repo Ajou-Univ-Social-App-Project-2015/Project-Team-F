@@ -16,8 +16,7 @@ import android.widget.ListView;
 /**
  * Created by KyungTack on 2015-11-26.
  */
-public class BookmarkActivity extends ActionBarActivity {
-
+public class MyRecipeActivity extends ActionBarActivity {
     private DrawerLayout dlDrawer;
     private ActionBarDrawerToggle dtToggle;
 
@@ -27,20 +26,20 @@ public class BookmarkActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.bookmarkactivity);
+        setContentView(R.layout.myrecipeactivity);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle("나의 찜");
 
-        mainNavList = (ListView)findViewById(R.id.bookmarkNavList); // Navigation Drawer 설정
+        mainNavList = (ListView)findViewById(R.id.myRecipeNavList); // Navigation Drawer 설정
         mainNavList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, navItems));
         mainNavList.setOnItemClickListener(new DrawerItemClickListener());
        /* mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);*/
 
-        dlDrawer = (DrawerLayout)findViewById(R.id.bookmark_drawer_layout); // Drawer 버튼
+        dlDrawer = (DrawerLayout)findViewById(R.id.myrecipe_drawer_layout); // Drawer 버튼
         dtToggle = new ActionBarDrawerToggle(this, dlDrawer, R.string.open_drawer, R.string.close_drawer){
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -79,11 +78,11 @@ public class BookmarkActivity extends ActionBarActivity {
         public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
             switch (position) {
                 case 0:
-                    break;
-                case 1:
-                    Intent intent = new Intent(BookmarkActivity.this,MyRecipeActivity.class);
+                    Intent intent = new Intent(MyRecipeActivity.this,BookmarkActivity.class);
                     startActivity(intent);
                     finish();
+                    break;
+                case 1:
                     break;
                 case 2:
                     break;
@@ -91,4 +90,5 @@ public class BookmarkActivity extends ActionBarActivity {
             dlDrawer.closeDrawer(mainNavList);
         }
     } // 드로우 리스너 리스트뷰 클릭시
+
 }

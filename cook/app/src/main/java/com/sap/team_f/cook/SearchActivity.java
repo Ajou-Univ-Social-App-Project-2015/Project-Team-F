@@ -314,6 +314,8 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
                     }
                     break;
                 case 1:
+                    Intent intent = new Intent(SearchActivity.this,MyRecipeActivity.class);
+                    startActivity(intent);
                     break;
                 case 2:
                     break;

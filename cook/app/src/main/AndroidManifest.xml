@@ -32,6 +32,9 @@
         <activity
             android:name=".BookmarkActivity"
             android:label="@string/app_name"/>
+        <activity
+            android:name=".MyRecipeActivity"
+            android:label="@string/app_name"/>
     </application>
 
 </manifest>

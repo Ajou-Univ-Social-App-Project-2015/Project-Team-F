@@ -47,6 +47,7 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
     public static ArrayList<Item> japdatas = new ArrayList<Item>();
     public static ArrayList<Item> engdatas = new ArrayList<Item>();
     public static ArrayList<Item> etcdatas = new ArrayList<Item>();
+    public static Item food;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -251,11 +252,19 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
 
     private void setList(ListView list, ArrayList<Item> data) // 추천순으로 3개 넣어주는 method
     {
-        ArrayList<Item> arItem = new ArrayList<Item>();
+        final ArrayList<Item> arItem = new ArrayList<Item>();
         for(int i=0;i<3;++i)
             arItem.add(data.get(i));
         itemAdapter adapter = new itemAdapter(this,R.layout.item,arItem);
         list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, FoodActivity.class);
+                food = arItem.get(position);
+                startActivity(intent);
+            }
+        });
     }
     private void load(){
         datas.clear();

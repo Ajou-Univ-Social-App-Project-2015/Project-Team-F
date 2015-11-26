@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:layout_width="280dp"
+        android:layout_height="200dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:id="@+id/main_picture"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="50dp"
+        android:src="@drawable/food" />
+
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TableRow>
+            <TextView
+        android:id="@+id/text_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="50dp"
+        android:textSize="20dp"
+        android:text="인원수 :"/>
+            </TableRow>
+            <TableRow>
+    <TextView
+        android:id="@+id/text_difficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="50dp"
+        android:textSize="20dp"
+        android:text="난이도 "/>
+            </TableRow>
+            <TableRow>
+    <TextView
+      android:id="@+id/main_ingredients"
+        android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="50dp"
+        android:textSize="20dp"
+        android:text="주재료 :"/>
+            </TableRow>
+            <TableRow>
+    <TextView
+        android:id="@+id/sub_ingredients"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="50dp"
+        android:textSize="20dp"
+        android:text="부재료"/>
+            </TableRow>
+            <TableRow>
+    <TextView
+        android:id="@+id/order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="50dp"
+        android:textSize="20dp"
+        android:text="요리 순서 : "/>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="50dp">
+    </ListView>
+            </TableRow>
+            <TableRow>
+    <TextView
+        android:id="@+id/comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="50dp"
+        android:textSize="20dp"
+        android:text="코멘트 : "/>
+            </TableRow>
+            <TableRow>
+    <TextView
+        android:id="@+id/reply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="50dp"
+        android:textSize="20dp"
+        android:text="댓글"/>
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="50dp">
+    </ListView>
+            </TableRow>
+
+        <TableRow>
+        <EditText
+            android:id="@+id/write_reply"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp">
+            <requestFocus />
+        </EditText>
+
+        <Button
+            android:id="@+id/submit_reply"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="#D3D3D3"
+            android:layout_marginLeft="10dp"
+            android:text="등록"
+            android:textColor="@color/black"/>
+
+        </TableRow>
+    </TableLayout>
+    </LinearLayout>
+    </ScrollView>
+</LinearLayout>

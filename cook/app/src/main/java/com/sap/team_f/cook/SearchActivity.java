@@ -140,6 +140,14 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
         ListView list = (ListView)findViewById(R.id.searchList);
         itemAdapter adapter = new itemAdapter(this,R.layout.item,datas);
         list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(SearchActivity.this, FoodActivity.class);
+                MainActivity.food = datas.get(position);
+                startActivity(intent);
+            }
+        });
 
         radio=(RadioGroup)findViewById(R.id.searchRadioGroup);
         radio.setOnCheckedChangeListener(this);

@@ -127,7 +127,7 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
         /*mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));*/
-        datas = MainActivity.datas;
+        datas.addAll(MainActivity.datas);
         for(int i=0;i<word.length;++i) {
             for (int j = datas.size() - 1; j >= 0; --j) {
                 Log.v("Name",datas.get(j).getName());
@@ -193,7 +193,8 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
                 MainActivity.etcdatas.add(new Item(object));
                 MainActivity.datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
             }
-            datas = MainActivity.datas;
+            datas.clear();
+            datas.addAll(MainActivity.datas);
             for(int i=0;i<word.length;++i) {
                 for (int j = datas.size() - 1; j >= 0; --j) {
                     Log.v("Name",datas.get(j).getName());

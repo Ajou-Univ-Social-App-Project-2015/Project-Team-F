@@ -2,160 +2,161 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="60dp"
-        android:background="@color/menu"
-        android:orientation="horizontal" >
 
-        <Button
-            android:id="@+id/menuButton"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:background="#00000000"
-            android:drawableLeft="@drawable/arrow_left_large_white"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="1dp"/>
-
-        <TextView
-            android:id="@+id/main_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="나의 레시피 등록"
-            android:textColor="@color/white"
-            android:textSize="32dp"
-            android:textStyle="bold"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            />
-
-    </LinearLayout>
-
-    <TableLayout
+    <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:layout_gravity="center_horizontal">
 
-        <TableRow>
-    <TextView
-        android:id="@+id/food_name"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp"
-        android:textSize="24dp"
-        android:text="요리이름 : "/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:id="@+id/foodImg"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/chef" />
 
-    <EditText
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:id="@+id/put_food_name"
-        android:textSize="24dp"
-        android:layout_marginTop="10dp" />
-        </TableRow>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
 
-    <TableRow>
-        <TextView
-            android:id="@+id/food_information"
-            android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="30dp"
-            android:textSize="24dp"
-            android:text="요리정보 : "/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="요리 이름 : "
+                    android:textSize="20dp" />
 
-        <EditText
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:id="@+id/put_food_information"
-            android:textSize="24dp"
-            android:layout_marginTop="10dp" />
-    </TableRow>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:id="@+id/foodNameText" />
+            </LinearLayout>
 
-    <TableRow>
-    <TextView
-        android:id="@+id/main_ingredients"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp"
-        android:textSize="24dp"
-        android:text="주재료 : "/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
 
-    <EditText
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:id="@+id/put_main_ingredidents"
-        android:textSize="24dp"
-        android:layout_marginTop="10dp" />
-    </TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="요리 정보 : "
+                    android:textSize="20dp" />
 
-    <TableRow>
-        <TextView
-            android:id="@+id/sub_ingredients"
-            android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="30dp"
-            android:textSize="24dp"
-            android:text="부재료 : "/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:id="@+id/foodInfoText" />
+            </LinearLayout>
 
-        <EditText
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:id="@+id/put_sub_ingredidents"
-            android:textSize="24dp"
-            android:layout_marginTop="10dp" />
-    </TableRow>
 
-    <TableRow>
-        <TextView
-            android:id="@+id/recipe"
-            android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="30dp"
-            android:textSize="24dp"
-            android:text="주재료 : "/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
 
-        <EditText
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:id="@+id/put_recipe"
-            android:textSize="24dp"
-            android:layout_marginTop="10dp" />
-    </TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="주재료 : "
+                    android:textSize="20dp" />
 
-    <TableRow>
-        <TextView
-            android:id="@+id/comment"
-            android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="30dp"
-            android:textSize="24dp"
-            android:text="코멘트 : "/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/foodMaterialText"
+                    android:textSize="20dp"/>
 
-        <EditText
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:id="@+id/put_comment"
-            android:textSize="24dp"
-            android:layout_marginTop="10dp" />
+            </LinearLayout>
 
-    </TableRow>
-    </TableLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
 
-    <Button
-        android:id="@+id/enroll_my_recipe"
-        android:layout_width="60dp"
-        android:layout_height="40dp"
-        android:background="#D3D3D3"
-        android:layout_marginLeft="280dp"
-        android:layout_marginTop="10dp"
-        android:text="등록"
-        android:textSize="20dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="부재료 : "
+                    android:textSize="20dp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/foodSubMaterialText"
+                    android:textSize="20dp"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="레시피"
+                    android:id="@+id/textView2"
+                    android:textSize="20dp" />
+
+                <ListView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/foodRecipeList" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="추가"
+                    android:id="@+id/foodRecipeAddBtn" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="코멘트 : "
+                    android:textSize="20dp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/foodCommentText"
+                    android:textSize="20dp"/>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/foodEnrollBtn"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:background="#D3D3D3"
+                android:layout_marginLeft="280dp"
+                android:layout_marginTop="10dp"
+                android:text="등록"
+                android:textSize="20dp"/>
+        </LinearLayout>
+    </ScrollView>
+
 
 
 

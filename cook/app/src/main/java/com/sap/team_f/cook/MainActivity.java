@@ -76,7 +76,7 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
             public void onClick(View v) {
                 EditText searchText = (EditText) findViewById(R.id.mainSearchText);
                 String search = searchText.getText().toString();
-                if (search == null) {
+                if (search == "") {
                     Toast.makeText(MainActivity.this, "검색 단어를 입력해 주세요", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(MainActivity.this, SearchActivity.class);

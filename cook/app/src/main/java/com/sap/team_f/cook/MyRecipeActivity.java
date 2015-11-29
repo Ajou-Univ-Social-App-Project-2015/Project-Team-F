@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 /**
@@ -52,6 +53,15 @@ public class MyRecipeActivity extends ActionBarActivity {
         };
         dlDrawer.setDrawerListener(dtToggle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Button addBtn = (Button)findViewById(R.id.recipeAddBtn);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyRecipeActivity.this,AddRecipeActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

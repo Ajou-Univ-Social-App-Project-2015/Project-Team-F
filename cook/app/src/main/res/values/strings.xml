@@ -20,4 +20,13 @@
     <string name="open_drawer">Open drawer</string>
     <string name="close_drawer">Close drawer</string>
 
+    <string name="food_prompt">요리 종류를 선택하십시오.</string>
+    <string-array name="food_array">
+        <item>한식</item>
+        <item>중식</item>
+        <item>일식</item>
+        <item>양식</item>
+        <item>기타</item>
+    </string-array>
+
 </resources>

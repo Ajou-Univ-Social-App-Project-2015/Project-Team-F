@@ -22,7 +22,7 @@ import com.parse.SignUpCallback;
 public class StartActivity extends Activity {
 
     public static boolean isInit = false;
-
+    public static ParseUser currentUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if(isInit==false)
@@ -64,6 +64,7 @@ public class StartActivity extends Activity {
                     ParseUser.logInInBackground(id, pass, new LogInCallback() {
                         public void done(ParseUser user, ParseException e) {
                             if (user != null) {
+                                currentUser = user;
                                 Toast.makeText(StartActivity.this, "로그인성공", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(StartActivity.this, MainActivity.class);
                                 intent.putExtra("isMember", true);

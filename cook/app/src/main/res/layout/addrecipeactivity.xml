@@ -42,6 +42,27 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="300dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="요리 종류 :"
+                    android:id="@+id/textView3"
+                    android:textSize="20dp" />
+
+                <Spinner
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinner"
+                    android:prompt="@string/food_prompt"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal">
 
@@ -103,7 +124,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="300dp"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:layout_gravity="center_horizontal">
 
                 <TextView
@@ -115,14 +136,26 @@
 
                 <ListView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="150dp"
                     android:id="@+id/foodRecipeList" />
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="추가"
-                    android:id="@+id/foodRecipeAddBtn" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="추가"
+                        android:id="@+id/foodRecipeAddBtn" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="삭제"
+                        android:id="@+id/foodRecipeDeleteBtn" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout

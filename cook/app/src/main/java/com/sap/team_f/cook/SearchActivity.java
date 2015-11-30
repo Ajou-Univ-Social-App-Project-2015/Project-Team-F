@@ -244,15 +244,11 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
     {
         JSONArray arr;
         arr = item.getMaterial();
-        Log.v("Search",str);
-        Log.v("Material",arr.toString());
         for(int i=0;i<arr.length();++i)
         {
             try {
-                Log.v("Material",arr.getJSONArray(i).get(0).toString());
-                if(arr.getJSONArray(i).get(0).toString().equals(str))
+                if(arr.getString(i).toString().equals(str))
                 {
-                    Log.v("vvv","true");
                     return true;
                 }
             } catch (JSONException e) {
@@ -263,10 +259,8 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
         for(int i=0;i<arr.length();++i)
         {
             try {
-                Log.v("subMaterial",arr.getJSONArray(i).get(0).toString());
-                if(arr.getJSONArray(i).get(0).toString().equals(str))
+                if(arr.getString(i).toString().equals(str))
                 {
-                    Log.v("vvv","true");
                     return true;
                 }
             } catch (JSONException e) {

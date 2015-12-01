@@ -164,13 +164,13 @@ public class AddRecipeActivity extends ActionBarActivity {
                 Log.v("food comment :",comment);
                 try {
                     ParseObject obj;
-                    if(foodCategory=="한식")
+                    if(foodCategory.equals("한식"))
                         obj = new ParseObject("Korean");
-                    else if(foodCategory=="중식")
+                    else if(foodCategory.equals("중식"))
                         obj = new ParseObject("China");
-                    else if(foodCategory=="일식")
+                    else if(foodCategory.equals("일식"))
                         obj = new ParseObject("Japan");
-                    else if(foodCategory=="양식")
+                    else if(foodCategory.equals("양식"))
                         obj = new ParseObject("English");
                     else
                         obj = new ParseObject("Etc");
@@ -184,7 +184,8 @@ public class AddRecipeActivity extends ActionBarActivity {
                     obj.put("SubMaterial",submaterialJSON);
                     obj.put("Id",StartActivity.currentUser.getUsername());
                     obj.save();
-                    //finish();
+                    MainActivity.load();
+                    finish();
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

@@ -21,14 +21,16 @@ public class Item implements Serializable{
     private String image = "";
     private int like = 0;
     private String info = "";
+    private String Id = "";
     private JSONArray material;
     private String comment = "";
     private Date updatedAt;
     private Date createdAt;
     private JSONArray recipe;
+    private String type = "";
     private JSONArray subMaterial;
 
-    public Item(ParseObject obj)
+    public Item(ParseObject obj,String type)
     {
         this.image = obj.getParseFile("Image").getUrl();
         this.name = obj.getString("Name");
@@ -40,6 +42,8 @@ public class Item implements Serializable{
         this.material = obj.getJSONArray("Material");
         this.recipe = obj.getJSONArray("Recipe");
         this.subMaterial = obj.getJSONArray("SubMaterial");
+        this.Id = obj.getString("Id");
+        this.type=type;
     }
     public String getImage()    {return this.image;}
     public String getName()     {return this.name;}
@@ -51,4 +55,6 @@ public class Item implements Serializable{
     public JSONArray getMaterial() {return this.material;}
     public JSONArray getSubMaterial() {return this.subMaterial;}
     public JSONArray getRecipe() {return this.recipe;}
+    public String getId()       {return this.Id;}
+    public String getType()     {return this.type;}
 }

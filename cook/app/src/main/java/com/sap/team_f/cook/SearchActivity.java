@@ -155,56 +155,16 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
 
     void load()
     {
-        MainActivity.datas.clear();
-        MainActivity.kordatas.clear();
-        MainActivity.japdatas.clear();
-        MainActivity.chndatas.clear();
-        MainActivity.engdatas.clear();
-        MainActivity.etcdatas.clear();
-        try {
-            ParseQuery<ParseObject> query;
-            query = ParseQuery.getQuery("Korean"); // 서버에 mydatas class 데이터 요청
-            for(ParseObject object : query.find())
-            {
-                MainActivity.kordatas.add(new Item(object));
-                MainActivity.datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
-            }
-            query = ParseQuery.getQuery("China"); // 서버에 mydatas class 데이터 요청
-            for(ParseObject object : query.find())
-            {
-                MainActivity.chndatas.add(new Item(object));
-                MainActivity.datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
-            }
-            query = ParseQuery.getQuery("Japan"); // 서버에 mydatas class 데이터 요청
-            for(ParseObject object : query.find())
-            {
-                MainActivity.japdatas.add(new Item(object));
-                MainActivity.datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
-            }
-            query = ParseQuery.getQuery("English"); // 서버에 mydatas class 데이터 요청
-            for(ParseObject object : query.find())
-            {
-                MainActivity.engdatas.add(new Item(object));
-                MainActivity.datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
-            }
-            query = ParseQuery.getQuery("Etc"); // 서버에 mydatas class 데이터 요청
-            for(ParseObject object : query.find())
-            {
-                MainActivity.etcdatas.add(new Item(object));
-                MainActivity.datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
-            }
-            datas.clear();
-            datas.addAll(MainActivity.datas);
-            for(int i=0;i<word.length;++i) {
-                for (int j = datas.size() - 1; j >= 0; --j) {
-                    Log.v("Name",datas.get(j).getName());
-                    if (Search(word[i], datas.get(j)) == false) {
-                        datas.remove(j);
-                    }
+        MainActivity.load();
+        datas.clear();
+        datas.addAll(MainActivity.datas);
+        for(int i=0;i<word.length;++i) {
+            for (int j = datas.size() - 1; j >= 0; --j) {
+                Log.v("Name",datas.get(j).getName());
+                if (Search(word[i], datas.get(j)) == false) {
+                    datas.remove(j);
                 }
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
     }
 

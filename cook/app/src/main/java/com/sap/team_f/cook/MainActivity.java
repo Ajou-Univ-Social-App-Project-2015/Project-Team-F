@@ -266,7 +266,7 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
             }
         });
     }
-    private void load(){
+    public static void load(){
         datas.clear();
         kordatas.clear();
         chndatas.clear();
@@ -279,32 +279,32 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
             query = ParseQuery.getQuery("Korean"); // 서버에 mydatas class 데이터 요청
             for(ParseObject object : query.find())
             {
-                datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
-                kordatas.add(new Item(object));
+                datas.add(new Item(object,"한식")); // 읽어온 데이터를 List에 저장
+                kordatas.add(new Item(object,"한식"));
             }
             query = ParseQuery.getQuery("China"); // 서버에 mydatas class 데이터 요청
             for(ParseObject object : query.find())
             {
-                datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
-                chndatas.add(new Item(object));
+                datas.add(new Item(object,"중식")); // 읽어온 데이터를 List에 저장
+                chndatas.add(new Item(object,"중식"));
             }
             query = ParseQuery.getQuery("Japan"); // 서버에 mydatas class 데이터 요청
             for(ParseObject object : query.find())
             {
-                datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
-                japdatas.add(new Item(object));
+                datas.add(new Item(object,"일식")); // 읽어온 데이터를 List에 저장
+                japdatas.add(new Item(object,"일식"));
             }
             query = ParseQuery.getQuery("English"); // 서버에 mydatas class 데이터 요청
             for(ParseObject object : query.find())
             {
-                datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
-                engdatas.add(new Item(object));
+                datas.add(new Item(object,"양식")); // 읽어온 데이터를 List에 저장
+                engdatas.add(new Item(object,"양식"));
             }
             query = ParseQuery.getQuery("Etc"); // 서버에 mydatas class 데이터 요청
             for(ParseObject object : query.find())
             {
-                datas.add(new Item(object)); // 읽어온 데이터를 List에 저장
-                etcdatas.add(new Item(object));
+                datas.add(new Item(object,"기타")); // 읽어온 데이터를 List에 저장
+                etcdatas.add(new Item(object,"기타"));
             }
         } catch (ParseException e) {
             e.printStackTrace();

@@ -7,12 +7,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+
+import java.util.ArrayList;
 
 /**
  * Created by KyungTack on 2015-11-26.
@@ -23,6 +26,8 @@ public class MyRecipeActivity extends ActionBarActivity {
 
     private ListView mainNavList;
     private String[] navItems = {"나의 찜","나의 레시피","방명록"};
+
+    private ArrayList<Item> data = new ArrayList<Item>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,27 @@ public class MyRecipeActivity extends ActionBarActivity {
         dlDrawer.setDrawerListener(dtToggle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        data.addAll(MainActivity.datas);
+        for(int i=data.size()-1;i>=0;--i)
+        {
+            if(!data.get(i).getId().equals(StartActivity.currentUser.getUsername()))
+            {
+                data.remove(i);
+            }
+        }
+        ListView list = (ListView)findViewById(R.id.recipeList);
+        itemAdapter adapter = new itemAdapter(this,R.layout.item,data);
+        list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MyRecipeActivity.this, FoodActivity.class);
+                MainActivity.food = data.get(position);
+                startActivity(intent);
+            }
+        });
+
         Button addBtn = (Button)findViewById(R.id.recipeAddBtn);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +88,32 @@ public class MyRecipeActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        data.clear();
+        data.addAll(MainActivity.datas);
+        for(int i=data.size()-1;i>=0;--i)
+        {
+            if(!data.get(i).getId().equals(StartActivity.currentUser.getUsername()))
+            {
+                data.remove(i);
+            }
+        }
+        ListView list = (ListView)findViewById(R.id.recipeList);
+        itemAdapter adapter = new itemAdapter(this,R.layout.item,data);
+        list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MyRecipeActivity.this, FoodActivity.class);
+                MainActivity.food = data.get(position);
+                startActivity(intent);
+            }
+        });
     }
 
     protected void onPostCreate(Bundle savedInstanceState){

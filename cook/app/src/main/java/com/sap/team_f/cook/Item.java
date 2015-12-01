@@ -24,7 +24,6 @@ public class Item implements Serializable{
     private String Id = "";
     private JSONArray material;
     private String comment = "";
-    private Date updatedAt;
     private Date createdAt;
     private JSONArray recipe;
     private String type = "";
@@ -32,12 +31,12 @@ public class Item implements Serializable{
 
     public Item(ParseObject obj,String type)
     {
+        this.objectId = obj.getObjectId();
         this.image = obj.getParseFile("Image").getUrl();
         this.name = obj.getString("Name");
         this.like = obj.getInt("Like");
         this.info = obj.getString("Info");
         this.comment = obj.getString("Comment");
-        this.updatedAt = obj.getUpdatedAt();
         this.createdAt = obj.getCreatedAt();
         this.material = obj.getJSONArray("Material");
         this.recipe = obj.getJSONArray("Recipe");
@@ -45,16 +44,23 @@ public class Item implements Serializable{
         this.Id = obj.getString("Id");
         this.type=type;
     }
+    public String getObjectId() {return this.objectId;}
     public String getImage()    {return this.image;}
     public String getName()     {return this.name;}
     public int getLike()        {return this.like;}
     public String getInfo()     {return this.info;}
     public String getComment()  {return this.comment;}
-    public Date getUpdatedAt()  {return this.updatedAt;}
     public Date getCreatedAt()  {return this.createdAt;}
     public JSONArray getMaterial() {return this.material;}
     public JSONArray getSubMaterial() {return this.subMaterial;}
     public JSONArray getRecipe() {return this.recipe;}
     public String getId()       {return this.Id;}
     public String getType()     {return this.type;}
+
+    public void setLike(boolean sw){
+        if(sw==true)
+            ++like;
+        else
+            --like;
+    }
 }

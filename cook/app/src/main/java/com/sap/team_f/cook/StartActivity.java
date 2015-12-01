@@ -22,7 +22,7 @@ import com.parse.SignUpCallback;
 public class StartActivity extends Activity {
 
     public static boolean isInit = false;
-    public static ParseUser currentUser;
+    public static ParseUser currentUser = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if(isInit==false)
@@ -48,6 +48,7 @@ public class StartActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(StartActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                currentUser=null;
                 startActivity(intent);
                 finish();
             }

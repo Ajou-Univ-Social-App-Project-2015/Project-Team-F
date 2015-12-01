@@ -15,6 +15,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import org.json.JSONArray;
+
 /**
  * Created by KyungTack on 2015-11-03.
  */
@@ -45,7 +47,8 @@ public class SignupActivity extends Activity {
                     user.setUsername(id);
                     user.setPassword(pass);
 
-                    user.put("Nickname",nick);
+                    user.put("Nickname", nick);
+                    user.put("Like",new JSONArray());
                     Log.v("User",user.toString());
                     user.signUpInBackground(new SignUpCallback() {
                         public void done(ParseException e) {

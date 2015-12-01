@@ -90,6 +90,7 @@ public class AddRecipeActivity extends ActionBarActivity {
                 }
                 Log.v("index ", Integer.toString(adapter.getCount()));
                 adapter.notifyDataSetChanged();
+                FoodActivity.setListViewHeightBasedOnChildren(list);
             }
         });
 
@@ -97,12 +98,13 @@ public class AddRecipeActivity extends ActionBarActivity {
         delBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(num==0)
+                if (num == 0)
                     return;
                 --num;
                 index.remove(num);
-                Log.v("index ",Integer.toString(adapter.getCount()));
+                Log.v("index ", Integer.toString(adapter.getCount()));
                 adapter.notifyDataSetChanged();
+                FoodActivity.setListViewHeightBasedOnChildren(list);
             }
         });
 
@@ -111,78 +113,74 @@ public class AddRecipeActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Item item;
-                ImageView foodImg=(ImageView)findViewById(R.id.foodImg);
+                ImageView foodImg = (ImageView) findViewById(R.id.foodImg);
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 orgImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
-                ParseFile img = new ParseFile("food.png",byteArray);
-                Log.v("food img :",img.toString());
-                EditText foodName = (EditText)findViewById(R.id.foodNameText);
+                ParseFile img = new ParseFile("food.png", byteArray);
+                Log.v("food img :", img.toString());
+                EditText foodName = (EditText) findViewById(R.id.foodNameText);
                 String name = foodName.getText().toString();
-                Log.v("food name :",name);
-                EditText foodInfo = (EditText)findViewById(R.id.foodInfoText);
+                Log.v("food name :", name);
+                EditText foodInfo = (EditText) findViewById(R.id.foodInfoText);
                 String info = foodInfo.getText().toString();
-                Log.v("food info :",info);
-                EditText foodMaterial = (EditText)findViewById(R.id.foodMaterialText);
-                String[] material=foodMaterial.getText().toString().split(" ");
+                Log.v("food info :", info);
+                EditText foodMaterial = (EditText) findViewById(R.id.foodMaterialText);
+                String[] material = foodMaterial.getText().toString().split(" ");
                 JSONArray materialJSON = new JSONArray(Arrays.asList(material));
-                for(int i=0;i<materialJSON.length();++i)
-                {
+                for (int i = 0; i < materialJSON.length(); ++i) {
                     try {
-                        Log.v("food material :",materialJSON.getString(i));
+                        Log.v("food material :", materialJSON.getString(i));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-                EditText foodSubMaterial = (EditText)findViewById(R.id.foodSubMaterialText);
-                String[] submaterial=foodSubMaterial.getText().toString().split(" ");
+                EditText foodSubMaterial = (EditText) findViewById(R.id.foodSubMaterialText);
+                String[] submaterial = foodSubMaterial.getText().toString().split(" ");
                 JSONArray submaterialJSON = new JSONArray(Arrays.asList(submaterial));
-                for(int i=0;i<submaterialJSON.length();++i)
-                {
+                for (int i = 0; i < submaterialJSON.length(); ++i) {
                     try {
-                        Log.v("food submaterial :",submaterialJSON.getString(i));
+                        Log.v("food submaterial :", submaterialJSON.getString(i));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
                 String[] recipe = new String[adapter.getCount()];
-                for(int i=0;i<adapter.getCount();++i)
-                {
-                    recipe[i]=adapter.getItem(i).getRecipe();
+                for (int i = 0; i < adapter.getCount(); ++i) {
+                    recipe[i] = adapter.getItem(i).getRecipe();
                 }
                 JSONArray recipeJSON = new JSONArray(Arrays.asList(recipe));
-                for(int i=0;i<recipeJSON.length();++i)
-                {
+                for (int i = 0; i < recipeJSON.length(); ++i) {
                     try {
-                        Log.v("food recipe :",recipeJSON.getString(i));
+                        Log.v("food recipe :", recipeJSON.getString(i));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-                EditText foodComment = (EditText)findViewById(R.id.foodCommentText);
+                EditText foodComment = (EditText) findViewById(R.id.foodCommentText);
                 String comment = foodComment.getText().toString();
-                Log.v("food comment :",comment);
+                Log.v("food comment :", comment);
                 try {
                     ParseObject obj;
-                    if(foodCategory.equals("한식"))
+                    if (foodCategory.equals("한식"))
                         obj = new ParseObject("Korean");
-                    else if(foodCategory.equals("중식"))
+                    else if (foodCategory.equals("중식"))
                         obj = new ParseObject("China");
-                    else if(foodCategory.equals("일식"))
+                    else if (foodCategory.equals("일식"))
                         obj = new ParseObject("Japan");
-                    else if(foodCategory.equals("양식"))
+                    else if (foodCategory.equals("양식"))
                         obj = new ParseObject("English");
                     else
                         obj = new ParseObject("Etc");
-                    obj.put("Name",name);
-                    obj.put("Image",img);
-                    obj.put("Like",0);
-                    obj.put("Info",info);
-                    obj.put("Material",materialJSON);
-                    obj.put("Comment",comment);
-                    obj.put("Recipe",recipeJSON);
-                    obj.put("SubMaterial",submaterialJSON);
-                    obj.put("Id",StartActivity.currentUser.getUsername());
+                    obj.put("Name", name);
+                    obj.put("Image", img);
+                    obj.put("Like", 0);
+                    obj.put("Info", info);
+                    obj.put("Material", materialJSON);
+                    obj.put("Comment", comment);
+                    obj.put("Recipe", recipeJSON);
+                    obj.put("SubMaterial", submaterialJSON);
+                    obj.put("Id", StartActivity.currentUser.getUsername());
                     obj.save();
                     MainActivity.load();
                     finish();

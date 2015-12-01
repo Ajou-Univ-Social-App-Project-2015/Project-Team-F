@@ -28,6 +28,7 @@ public class Item implements Serializable{
     private JSONArray recipe;
     private String type = "";
     private JSONArray subMaterial;
+    private JSONArray reply;
 
     public Item(ParseObject obj,String type)
     {
@@ -43,6 +44,7 @@ public class Item implements Serializable{
         this.subMaterial = obj.getJSONArray("SubMaterial");
         this.Id = obj.getString("Id");
         this.type=type;
+        this.reply = obj.getJSONArray("Reply");
     }
     public String getObjectId() {return this.objectId;}
     public String getImage()    {return this.image;}
@@ -56,11 +58,13 @@ public class Item implements Serializable{
     public JSONArray getRecipe() {return this.recipe;}
     public String getId()       {return this.Id;}
     public String getType()     {return this.type;}
-
+    public JSONArray getReply() {return this.reply;}
     public void setLike(boolean sw){
         if(sw==true)
             ++like;
         else
             --like;
     }
+
+    public void setReply(JSONArray reply) {this.reply=reply;}
 }

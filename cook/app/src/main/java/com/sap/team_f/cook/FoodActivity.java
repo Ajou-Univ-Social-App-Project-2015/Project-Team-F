@@ -1,5 +1,6 @@
 package com.sap.team_f.cook;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -137,6 +138,15 @@ public class FoodActivity extends ActionBarActivity {
         setListViewHeightBasedOnChildren(foodRecipeList);
         TextView foodComment = (TextView)findViewById(R.id.selectedFoodCommentText);
         foodComment.setText(food.getComment());
+
+        Button replyBtn = (Button)findViewById(R.id.replyBtn);
+        replyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FoodActivity.this, ReplyActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setLike(JSONArray arr)

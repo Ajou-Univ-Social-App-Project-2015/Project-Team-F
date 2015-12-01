@@ -20,6 +20,8 @@ import java.util.ArrayList;
  * Created by KyungTack on 2015-11-30.
  */
 public class RecipeAdapter extends ArrayAdapter<Recipe> {
+
+
     RecipeAdapter(Context context, ArrayList<Recipe> index){
         super(context, R.layout.recipe,index);
     }

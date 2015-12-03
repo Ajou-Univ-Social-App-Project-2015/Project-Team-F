@@ -10,17 +10,9 @@
         <ListView
              android:id="@+id/bookmarkList"
              android:layout_width="fill_parent"
-             android:layout_height="370dp"
+             android:layout_height="fill_parent"
              android:layout_marginTop="20dp"
              android:layout_below="@+id/my_bookmark_list"/>
-
-        <Button
-            android:id="@+id/bookmarkEditBtn"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:background="#20B2AA"
-            android:layout_marginLeft="300dp"
-            android:text="편집" />
 
     </LinearLayout>
 

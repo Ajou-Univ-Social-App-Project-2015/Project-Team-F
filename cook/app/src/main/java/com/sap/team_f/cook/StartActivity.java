@@ -23,6 +23,7 @@ public class StartActivity extends Activity {
 
     public static boolean isInit = false;
     public static ParseUser currentUser = null;
+    public static String password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if(isInit==false)
@@ -61,7 +62,7 @@ public class StartActivity extends Activity {
                     EditText idText = (EditText) findViewById(R.id.startIdText);
                     String id = idText.getText().toString();
                     EditText passText = (EditText) findViewById(R.id.startPassText);
-                    String pass = passText.getText().toString();
+                    final String pass = passText.getText().toString();
                     ParseUser.logInInBackground(id, pass, new LogInCallback() {
                         public void done(ParseUser user, ParseException e) {
                             if (user != null) {
@@ -69,6 +70,7 @@ public class StartActivity extends Activity {
                                 Toast.makeText(StartActivity.this, "로그인성공", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(StartActivity.this, MainActivity.class);
                                 intent.putExtra("isMember", true);
+                                password=pass;
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
                                 finish();

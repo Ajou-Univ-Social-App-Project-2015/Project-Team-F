@@ -170,6 +170,9 @@ public class BookmarkActivity extends ActionBarActivity {
                     finish();
                     break;
                 case 3:
+                    intent = new Intent(BookmarkActivity.this,SettingActivity.class);
+                    startActivity(intent);
+                    finish();
                     break;
             }
             dlDrawer.closeDrawer(mainNavList);

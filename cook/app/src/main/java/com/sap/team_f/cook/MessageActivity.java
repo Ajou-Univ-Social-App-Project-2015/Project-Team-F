@@ -188,6 +188,9 @@ public class MessageActivity extends ActionBarActivity {
                 case 2:
                     break;
                 case 3:
+                    intent = new Intent(MessageActivity.this,SettingActivity.class);
+                    startActivity(intent);
+                    finish();
                     break;
             }
             dlDrawer.closeDrawer(mainNavList);

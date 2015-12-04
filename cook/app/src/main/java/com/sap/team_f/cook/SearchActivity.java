@@ -288,6 +288,8 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
                     startActivity(intent);
                     break;
                 case 3:
+                    intent = new Intent(SearchActivity.this,SettingActivity.class);
+                    startActivity(intent);
                     break;
             }
             dlDrawer.closeDrawer(SearchNavList);

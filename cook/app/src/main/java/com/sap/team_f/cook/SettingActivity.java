@@ -1,5 +1,7 @@
 package com.sap.team_f.cook;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -12,9 +14,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Created by KyungTack on 2015-12-04.
@@ -24,7 +29,7 @@ public class SettingActivity extends ActionBarActivity {
     private ActionBarDrawerToggle dtToggle;
 
     private ListView mainNavList;
-    private String[] navItems = {"³ªÀÇ Âò","³ªÀÇ ·¹½ÃÇÇ","¹æ¸í·Ï","¼³Á¤"};
+    private String[] navItems = {"ë‚˜ì˜ ì°œ","ë‚˜ì˜ ë ˆì‹œí”¼","ë°©ëª…ë¡","ì„¤ì •"};
 
 
     @Override
@@ -35,15 +40,15 @@ public class SettingActivity extends ActionBarActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle("¼³Á¤");
+        actionBar.setTitle("ì„¤ì •");
 
-        mainNavList = (ListView)findViewById(R.id.myRecipeNavList); // Navigation Drawer ¼³Á¤
+        mainNavList = (ListView)findViewById(R.id.settingNavList); // Navigation Drawer ì„¤ì •
         mainNavList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, navItems));
         mainNavList.setOnItemClickListener(new DrawerItemClickListener());
        /* mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);*/
 
-        dlDrawer = (DrawerLayout)findViewById(R.id.myrecipe_drawer_layout); // Drawer ¹öÆ°
+        dlDrawer = (DrawerLayout)findViewById(R.id.setting_drawer_layout); // Drawer ë²„íŠ¼
         dtToggle = new ActionBarDrawerToggle(this, dlDrawer, R.string.open_drawer, R.string.close_drawer){
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -56,6 +61,67 @@ public class SettingActivity extends ActionBarActivity {
         };
         dlDrawer.setDrawerListener(dtToggle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        final EditText nickText = (EditText)findViewById(R.id.settingNick);
+        nickText.setText(StartActivity.currentUser.getString("Nickname"));
+        Button nickBtn = (Button)findViewById(R.id.settingNickBtn);
+        nickBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nick = nickText.getText().toString();
+                StartActivity.currentUser.put("Nickname", nick);
+                StartActivity.currentUser.saveInBackground();
+                Toast.makeText(SettingActivity.this,"ë‹‰ë„¤ì„ì´ ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤.",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Button passBtn = (Button)findViewById(R.id.settingPassBtn);
+        passBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText currentPass = (EditText)findViewById(R.id.settingCurrentPass);
+                EditText changePass = (EditText)findViewById(R.id.settingChangePass);
+                EditText changeRePass = (EditText)findViewById(R.id.settingChangeRePass);
+                if(!currentPass.getText().toString().equals(StartActivity.password) ||
+                        !changePass.getText().toString().equals(changeRePass.getText().toString()))
+                {
+                    Toast.makeText(SettingActivity.this,"ë¹„ë°€ë²ˆí˜¸ê°€ ë‹¤ë¦…ë‹ˆë‹¤",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                StartActivity.currentUser.setPassword(changePass.getText().toString());
+                StartActivity.currentUser.saveInBackground();
+                StartActivity.password = changePass.getText().toString();
+                Toast.makeText(SettingActivity.this,"ë¹„ë°€ë²ˆí˜¸ê°€ ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤.",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Button removeBtn = (Button)findViewById(R.id.removeBtn);
+        removeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(SettingActivity.this);
+                alert.setTitle("ê²½ê³ ì°½");
+                alert.setPositiveButton("í™•ì¸", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        StartActivity.currentUser.deleteInBackground();
+                        Intent intent = new Intent(SettingActivity.this, StartActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        StartActivity.currentUser=null;
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+                alert.setNegativeButton("ì·¨ì†Œ", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                alert.setMessage("ì •ë§ë¡œ íšŒì›íƒˆí‡´ í•˜ì‹œê² ìŠµë‹ˆê¹Œ?");
+                alert.show();
+            }
+        });
     }
 
     protected void onPostCreate(Bundle savedInstanceState){
@@ -86,6 +152,9 @@ public class SettingActivity extends ActionBarActivity {
                     finish();
                     break;
                 case 1:
+                    intent = new Intent(SettingActivity.this,MyRecipeActivity.class);
+                    startActivity(intent);
+                    finish();
                     break;
                 case 2:
                     intent = new Intent(SettingActivity.this,MessageActivity.class);
@@ -98,5 +167,5 @@ public class SettingActivity extends ActionBarActivity {
             }
             dlDrawer.closeDrawer(mainNavList);
         }
-    } // µå·Î¿ì ¸®½º³Ê ¸®½ºÆ®ºä Å¬¸¯½Ã
+    } // ë“œë¡œìš° ë¦¬ìŠ¤ë„ˆ ë¦¬ìŠ¤íŠ¸ë·° í´ë¦­ì‹œ
 }

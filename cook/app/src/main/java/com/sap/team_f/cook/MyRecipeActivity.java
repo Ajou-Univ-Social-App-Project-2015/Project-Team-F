@@ -147,11 +147,14 @@ public class MyRecipeActivity extends ActionBarActivity {
                     break;
                 case 2:
                     intent = new Intent(MyRecipeActivity.this,MessageActivity.class);
-                    intent.putExtra("search",StartActivity.currentUser.getUsername());
+                    intent.putExtra("search", StartActivity.currentUser.getUsername());
                     startActivity(intent);
                     finish();
                     break;
                 case 3:
+                    intent = new Intent(MyRecipeActivity.this,SettingActivity.class);
+                    startActivity(intent);
+                    finish();
                     break;
             }
             dlDrawer.closeDrawer(mainNavList);

@@ -479,16 +479,19 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
                     break;
                 case 2:
                     intent = new Intent(MainActivity.this,MessageActivity.class);
-                    intent.putExtra("search",StartActivity.currentUser.getUsername());
+                    intent.putExtra("search", StartActivity.currentUser.getUsername());
                     startActivity(intent);
                     break;
                 case 3:
+                    intent = new Intent(MainActivity.this,SettingActivity.class);
+                    startActivity(intent);
                     break;
             }
             dlDrawer.closeDrawer(mainNavList);
         }
     } // 드로우 리스너 리스트뷰 클릭시
     public void onBackPressed() {
-        finish();
+        ExitDialogFragment alertDialog = new ExitDialogFragment();
+        alertDialog.show(getFragmentManager(), "msg1");
     }
 }

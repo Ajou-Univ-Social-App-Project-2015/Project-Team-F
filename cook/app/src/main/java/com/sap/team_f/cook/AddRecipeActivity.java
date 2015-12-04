@@ -180,7 +180,7 @@ public class AddRecipeActivity extends ActionBarActivity {
                     obj.put("Comment", comment);
                     obj.put("Recipe", recipeJSON);
                     obj.put("SubMaterial", submaterialJSON);
-                    obj.put("Reply",((new JSONArray()).put(new JSONArray())));
+                    obj.put("Reply",new JSONArray());
                     obj.put("Id", StartActivity.currentUser.getUsername());
                     obj.save();
                     MainActivity.load();

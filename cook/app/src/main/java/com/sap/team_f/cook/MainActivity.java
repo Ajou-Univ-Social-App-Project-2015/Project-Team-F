@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
@@ -37,7 +38,7 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
     private ActionBarDrawerToggle dtToggle;
 
     private ListView mainNavList;
-    private String[] navItems = {"나의 찜","나의 레시피","방명록"};
+    private String[] navItems;
     private RadioGroup[] radio = new RadioGroup[6];
     private boolean isMember;
 
@@ -59,10 +60,11 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
 
         if(isMember)
         {
-            navItems = new String[3];
+            navItems = new String[4];
             navItems[0]="나의 찜";
             navItems[1]="나의 레시피";
             navItems[2]="방명록";
+            navItems[3]="설정";
         }
         else
         {
@@ -82,6 +84,7 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
                     Intent intent = new Intent(MainActivity.this, SearchActivity.class);
                     intent.putExtra("Search", search);
                     intent.putExtra("isMember", isMember);
+                    searchText.setText("");
                     startActivity(intent);
                 }
             }
@@ -476,7 +479,10 @@ public class MainActivity extends ActionBarActivity implements RadioGroup.OnChec
                     break;
                 case 2:
                     intent = new Intent(MainActivity.this,MessageActivity.class);
+                    intent.putExtra("search",StartActivity.currentUser.getUsername());
                     startActivity(intent);
+                    break;
+                case 3:
                     break;
             }
             dlDrawer.closeDrawer(mainNavList);

@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -48,8 +49,16 @@ public class SignupActivity extends Activity {
                     user.setPassword(pass);
 
                     user.put("Nickname", nick);
-                    user.put("Like",new JSONArray());
-                    Log.v("User",user.toString());
+                    user.put("Like", new JSONArray());
+
+                    ParseObject obj = new ParseObject("Comment");
+                    obj.put("username",id);
+                    obj.put("Comment",new JSONArray());
+                    try {
+                        obj.save();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     user.signUpInBackground(new SignUpCallback() {
                         public void done(ParseException e) {
                             if (e == null) {

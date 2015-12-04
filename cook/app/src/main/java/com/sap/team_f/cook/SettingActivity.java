@@ -7,7 +7,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,34 +17,33 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 /**
- * Created by KyungTack on 2015-11-26.
+ * Created by KyungTack on 2015-12-04.
  */
-public class MyRecipeActivity extends ActionBarActivity {
+public class SettingActivity extends ActionBarActivity {
     private DrawerLayout dlDrawer;
     private ActionBarDrawerToggle dtToggle;
 
     private ListView mainNavList;
-    private String[] navItems = {"ÎÇòÏùò Ï∞ú","ÎÇòÏùò Î†àÏãúÌîº","Î∞©Î™ÖÎ°ù","ÏÑ§Ï†ï"};
+    private String[] navItems = {"≥™¿« ¬Ú","≥™¿« ∑πΩ√««","πÊ∏Ì∑œ","º≥¡§"};
 
-    private ArrayList<Item> data = new ArrayList<Item>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.myrecipeactivity);
+        setContentView(R.layout.settingactivity);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle("ÎÇòÏùò Î†àÏãúÌîº");
+        actionBar.setTitle("º≥¡§");
 
-        mainNavList = (ListView)findViewById(R.id.myRecipeNavList); // Navigation Drawer ÏÑ§Ï†ï
+        mainNavList = (ListView)findViewById(R.id.myRecipeNavList); // Navigation Drawer º≥¡§
         mainNavList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, navItems));
         mainNavList.setOnItemClickListener(new DrawerItemClickListener());
        /* mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);*/
 
-        dlDrawer = (DrawerLayout)findViewById(R.id.myrecipe_drawer_layout); // Drawer Î≤ÑÌäº
+        dlDrawer = (DrawerLayout)findViewById(R.id.myrecipe_drawer_layout); // Drawer πˆ∆∞
         dtToggle = new ActionBarDrawerToggle(this, dlDrawer, R.string.open_drawer, R.string.close_drawer){
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -58,62 +56,6 @@ public class MyRecipeActivity extends ActionBarActivity {
         };
         dlDrawer.setDrawerListener(dtToggle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-        data.addAll(MainActivity.datas);
-        for(int i=data.size()-1;i>=0;--i)
-        {
-            if(!data.get(i).getId().equals(StartActivity.currentUser.getUsername()))
-            {
-                data.remove(i);
-            }
-        }
-        ListView list = (ListView)findViewById(R.id.recipeList);
-        itemAdapter adapter = new itemAdapter(this,R.layout.item,data);
-        list.setAdapter(adapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MyRecipeActivity.this, FoodActivity.class);
-                MainActivity.food = data.get(position);
-                startActivity(intent);
-            }
-        });
-
-        Button addBtn = (Button)findViewById(R.id.recipeAddBtn);
-        addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MyRecipeActivity.this,AddRecipeActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        data.clear();
-        data.addAll(MainActivity.datas);
-        for(int i=data.size()-1;i>=0;--i)
-        {
-            if(!data.get(i).getId().equals(StartActivity.currentUser.getUsername()))
-            {
-                data.remove(i);
-            }
-        }
-        ListView list = (ListView)findViewById(R.id.recipeList);
-        itemAdapter adapter = new itemAdapter(this,R.layout.item,data);
-        list.setAdapter(adapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MyRecipeActivity.this, FoodActivity.class);
-                MainActivity.food = data.get(position);
-                startActivity(intent);
-            }
-        });
     }
 
     protected void onPostCreate(Bundle savedInstanceState){
@@ -139,14 +81,14 @@ public class MyRecipeActivity extends ActionBarActivity {
         public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
             switch (position) {
                 case 0:
-                    Intent intent = new Intent(MyRecipeActivity.this,BookmarkActivity.class);
+                    Intent intent = new Intent(SettingActivity.this,BookmarkActivity.class);
                     startActivity(intent);
                     finish();
                     break;
                 case 1:
                     break;
                 case 2:
-                    intent = new Intent(MyRecipeActivity.this,MessageActivity.class);
+                    intent = new Intent(SettingActivity.this,MessageActivity.class);
                     intent.putExtra("search",StartActivity.currentUser.getUsername());
                     startActivity(intent);
                     finish();
@@ -156,6 +98,5 @@ public class MyRecipeActivity extends ActionBarActivity {
             }
             dlDrawer.closeDrawer(mainNavList);
         }
-    } // ÎìúÎ°úÏö∞ Î¶¨Ïä§ÎÑà Î¶¨Ïä§Ìä∏Î∑∞ ÌÅ¥Î¶≠Ïãú
-
+    } // µÂ∑ŒøÏ ∏ÆΩ∫≥  ∏ÆΩ∫∆Æ∫‰ ≈¨∏ØΩ√
 }

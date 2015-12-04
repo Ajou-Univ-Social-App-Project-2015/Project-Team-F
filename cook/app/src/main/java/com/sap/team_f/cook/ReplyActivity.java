@@ -67,6 +67,7 @@ public class ReplyActivity extends ActionBarActivity {
                 reply.put(StartActivity.currentUser.get("Nickname"));
                 reply.put(replyText.getText().toString());
                 replies.put(reply);
+                replyText.setText("");
                 food.setReply(replies);
                 ParseQuery<ParseObject> query;
                 if (food.getType().equals("한식"))

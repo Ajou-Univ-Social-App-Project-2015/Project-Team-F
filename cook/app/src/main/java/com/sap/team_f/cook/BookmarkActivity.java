@@ -30,7 +30,7 @@ public class BookmarkActivity extends ActionBarActivity {
     private ActionBarDrawerToggle dtToggle;
 
     private ListView mainNavList;
-    private String[] navItems = {"나의 찜","나의 레시피","방명록"};
+    private String[] navItems = {"나의 찜","나의 레시피","방명록","설정"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,8 +165,11 @@ public class BookmarkActivity extends ActionBarActivity {
                     break;
                 case 2:
                     intent = new Intent(BookmarkActivity.this,MessageActivity.class);
+                    intent.putExtra("search",StartActivity.currentUser.getUsername());
                     startActivity(intent);
                     finish();
+                    break;
+                case 3:
                     break;
             }
             dlDrawer.closeDrawer(mainNavList);

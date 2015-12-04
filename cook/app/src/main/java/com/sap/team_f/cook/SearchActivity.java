@@ -37,7 +37,7 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
     private ActionBarDrawerToggle dtToggle;
 
     private ListView SearchNavList;
-    private String[] navItems = {"나의 찜","나의 레시피","방명록"};
+    private String[] navItems;
     private ArrayList<Item> datas = new ArrayList<Item>(); // parse.com에서 읽어온 object들을 저장할 List
     private RadioGroup radio;
     private String[] word;
@@ -55,10 +55,11 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
         searchText.setText(search);
         if(isMember)
         {
-            navItems = new String[3];
+            navItems = new String[4];
             navItems[0]="나의 찜";
             navItems[1]="나의 레시피";
             navItems[2]="방명록";
+            navItems[3]="설정";
         }
         else
         {
@@ -78,6 +79,7 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
                     Intent intent = new Intent(SearchActivity.this, SearchActivity.class);
                     intent.putExtra("Search", search);
                     intent.putExtra("isMember", isMember);
+                    searchText.setText("");
                     startActivity(intent);
                 }
             }
@@ -282,7 +284,10 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
                     break;
                 case 2:
                     intent = new Intent(SearchActivity.this,MessageActivity.class);
+                    intent.putExtra("search",StartActivity.currentUser.getUsername());
                     startActivity(intent);
+                    break;
+                case 3:
                     break;
             }
             dlDrawer.closeDrawer(SearchNavList);

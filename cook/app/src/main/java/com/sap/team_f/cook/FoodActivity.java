@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -135,6 +137,13 @@ public class FoodActivity extends ActionBarActivity {
         ArrayAdapter<String> adapter;
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,recipe);
         foodRecipeList.setAdapter(adapter);
+        foodRecipeList.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                ScrollView foodScroll = (ScrollView)findViewById(R.id.foodScrollView);
+                foodScroll.requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
         setListViewHeightBasedOnChildren(foodRecipeList);
         TextView foodComment = (TextView)findViewById(R.id.selectedFoodCommentText);
         foodComment.setText(food.getComment());

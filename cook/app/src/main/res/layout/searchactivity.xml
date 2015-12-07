@@ -33,8 +33,6 @@
                     android:nextFocusUp="@id/searchSearchText"
                     android:nextFocusLeft="@id/searchSearchText"
                     android:layout_height="wrap_content">
-
-                    <requestFocus />
                 </EditText>
 
                 <Button

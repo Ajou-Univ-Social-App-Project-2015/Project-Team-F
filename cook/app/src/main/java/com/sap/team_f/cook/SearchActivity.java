@@ -170,6 +170,36 @@ public class SearchActivity extends ActionBarActivity implements RadioGroup.OnCh
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        datas.clear();
+        datas.addAll(MainActivity.datas);
+        for(int i=0;i<word.length;++i) {
+            for (int j = datas.size() - 1; j >= 0; --j) {
+                Log.v("Name",datas.get(j).getName());
+                if (Search(word[i], datas.get(j)) == false) {
+                    datas.remove(j);
+                }
+            }
+        }
+        if(radio.getCheckedRadioButtonId()==R.id.searchAllRec)
+            onSortLike(datas);
+        else
+            onSortDay(datas);
+        ListView list = (ListView)findViewById(R.id.searchList);
+        itemAdapter adapter = new itemAdapter(this,R.layout.item,datas);
+        list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(SearchActivity.this, FoodActivity.class);
+                MainActivity.food = datas.get(position);
+                startActivity(intent);
+            }
+        });
+    }
+
     public void onSortLike(ArrayList<Item> data) // 좋아요 순으로 정렬
     {
         for(int i = 0; i<data.size()-1;++i)

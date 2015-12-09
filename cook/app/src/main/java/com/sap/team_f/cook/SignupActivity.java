@@ -63,9 +63,13 @@ public class SignupActivity extends Activity {
                         public void done(ParseException e) {
                             if (e == null) {
                                 Toast.makeText(SignupActivity.this,"가입한 아이디로 로그인 해주세요",Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(SignupActivity.this, StartActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
                                 finish();
                                 // Hooray! Let them use the app now.
                             } else {
+                                Log.v("error",e.toString());
                                 Toast.makeText(SignupActivity.this,"이미 존재하는 아이디입니다.",Toast.LENGTH_SHORT).show();
                                 // Sign up didn't succeed. Look at the ParseException
                                 // to figure out what went wrong
